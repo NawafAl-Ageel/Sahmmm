@@ -1,72 +1,173 @@
-/* Modal overlay and content */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    animation: fadeIn 0.3s forwards; /* Fade in animation */
-  }
-  
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 500px;
-    max-width: 90%;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transform: scale(0.8);
-    animation: scaleUp 0.3s forwards; /* Scale-up animation */
-  }
-  
-  .opportunity-image {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 15px;
-  }
-  
-  .close-button {
-    background-color: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    float: right;
-  }
-  
-  .close-button:hover {
-    background-color: darkred;
-  }
-  
-  /* Keyframes for the fade-in animation */
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  
-  /* Keyframes for the scale-up animation */
-  @keyframes scaleUp {
-    0% {
-      transform: scale(0.8); /* Start smaller */
-    }
-    100% {
-      transform: scale(1); /* End at full size */
-    }
-  }
-  
-  p{
-    font-size: 16px;
-    color: #333;
-  }
+/* Main Section Styling */
+.main-section {
+  padding: 20px;
+  background-color: #f5f5f5; /* Light grey background */
+}
+
+/* Search, Filter, and Date Controls */
+.search-filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.search-input, .date-input, .filter-dropdown {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.search-input:focus, .date-input:focus, .filter-dropdown:focus {
+  outline: none;
+  border-color: #3b883f;
+}
+
+.filter-dropdown {
+  width: 150px;
+}
+
+/* Opportunities Container Styling */
+.opportunities-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Adjust the opportunity card size and layout */
+.opportunity-card {
+  width: 320px; /* Wider card */
+  border-radius: 12px; /* Rounded corners */
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.opportunity-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Adjust the opportunity image */
+.opportunity-image {
+  width: 100%;
+  height: 180px; /* Increased height */
+  object-fit: cover;
+}
+
+/* Add category and registration status */
+.opportunity-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.category-label, .status-label {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.category-label {
+  background-color: #f8c9c1; /* Example: light orange */
+  color: #d35400; /* Example: dark orange */
+}
+
+.status-label {
+  background-color: #e8f8e5; /* Light green */
+  color: #27ae60; /* Dark green */
+}
+
+/* Adjust the title styling */
+.opportunity-title {
+  padding: 12px;
+  font-size: 20px; /* Slightly larger font */
+  font-weight: 700;
+  color: #333;
+}
+
+/* Add duration and date at the bottom of the card */
+.opportunity-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #777;
+}
+
+.opportunity-footer .duration,
+.opportunity-footer .date {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.opportunity-footer .icon {
+  font-size: 16px; /* Icon size */
+  color: #888;
+}
+
+.no-opportunities {
+  font-size: 18px;
+  color: #777;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.homepage-container {
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 1200px; /* Adjust as needed */
+}
+
+.load-more-data {
+  margin: 20px auto !important;
+  padding: 10px 20px !important;
+  font-size: 16px !important;
+  color: #3b883f !important;
+  border: 2px solid #3b883f !important;
+  background-color: transparent !important;
+  border-radius: 25px !important;
+  cursor: pointer !important;
+  transition: 0.3s !important;
+}
+
+.load-more-data:hover {
+  background-color: #4a3f8b !important;
+  color: white !important;
+}
+
+.load-more-data:disabled {
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
+}
+
+
+.status-label {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.status-label.available {
+  background-color: #3b883f; /* Green for available */
+  color: white;
+}
+
+.status-label.unavailable {
+  background-color: #d9534f; /* Red for closed */
+  color: white;
+}

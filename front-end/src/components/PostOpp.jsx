@@ -35,7 +35,7 @@ const PostOpp = ({ name, handleLogout }) => {
       alert(response.data.message);
     } catch (error) {
       console.error('Error posting opportunity:', error);
-      alert('There was an error posting the opportunity.');
+      alert('.مشكلة أثناء نشر الفرصة');
     }
   };
 
@@ -88,16 +88,19 @@ const PostOpp = ({ name, handleLogout }) => {
               value={participants}
               onChange={(e) => setParticipants(e.target.value)}
               required
+              min={1}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="duration">المدة ( بالساعة )</label>
             <input
-              type="text"
+              type="number"
               id="duration"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
+              required
+              min={1}
             />
           </div>
 
@@ -122,7 +125,7 @@ const PostOpp = ({ name, handleLogout }) => {
             />
           </div>
 
-          <button type="submit" className="submit-button">Submit</button>
+          <button type="submit" className="submit-button">نشر</button>
         </form>
       </div>
     </div>

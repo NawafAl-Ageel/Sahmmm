@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './profile.css';
-import './ProjectStyle.css';
+import './style/ProjectStyle.css';
 import { useNavigate } from 'react-router-dom';
 import HeaderV from "./HeaderV";
 // import History from "./History"
@@ -52,7 +52,7 @@ const VolunteerProfile = ({ user, setUser, setVolunteerToken,handleLogout }) => 
     const check = await checkUser();
     if (check) console.log("found user");
   
-    if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+    if (window.confirm('.هل أنت متأكد من أنك تريد حذف الحساب؟ لا يمكنك التراجع عن ذلك')) {
       try {
         const token = localStorage.getItem('authToken');
         console.log('Token being sent:', token);
@@ -146,14 +146,14 @@ const handleSaveProfile = async () => {
       setIsEditing(false); // Stop editing mode after save
 
       // Optionally, show a success message to the user
-      alert('Profile updated successfully');
+      alert('تم تحديث الحساب بنجاح');
     }
   } catch (error) {
     console.error('Error saving updated profile:', error);
     if (error.response) {
-      alert(`Failed to save profile: ${error.response.data.message}`);
+      alert(`فشل في حفظ المعلومات: ${error.response.data.message}`);
     } else {
-      alert('Failed to save profile. Please try again later.');
+      alert('.فضل في حفظ المعلومات، الرجاء المحاولة لاحقًا');
     }
   }
 };
@@ -228,37 +228,37 @@ const handleSaveProfile = async () => {
             </button>
           )}
           <h2 className="profile-name">{profileData.name}</h2>
-          <p className="profile-title">Volunteer</p>
+          <p className="profile-title">مساهم</p>
 
           <div className="profile-stats">
             <p>
-              Opportunities Participated:{' '}
+              {' '} المساهمات السابقة:
               <span className="stat-number">
-                {profileData.opportunitiesParticipated || 0}
+                {profileData.opportunitiesParticipated ||" "+ 0}
               </span>
             </p>
             <p>
-              Current Opportunities:{' '}
+              {' '} المساهمات الحالية:
               <span className="stat-number">
-                {profileData.currentOpportunities || 0}
+                {profileData.currentOpportunities ||" "+ 0}
               </span>
             </p>
           </div>
 
-          <button className="public-profile-btn">View Public Profile</button>
+          <button className="public-profile-btn">مشاهدة الحساب الشخصي</button>
         </div>
 
         <div className="profile-details">
-          <h3>Account Information</h3>
+          <h3>بيانات الحساب</h3>
           <br></br>
 
           <div className="profile-info">
             <div className="profile-info-item">
-              <label>Email</label>
+              <label>البريدالإلكتروني</label>
               <p>{profileData.email}</p>
             </div>
             <div className="profile-info-item">
-              <label>City of Residence</label>
+              <label>مقر الإقامة</label>
               {isEditing ? (
                 <input
                   type="text"
@@ -271,37 +271,43 @@ const handleSaveProfile = async () => {
               )}
             </div>
             <div className="profile-info-item">
-              <label>Date of Birth</label>
+              <label>تاريخ الميلاد</label>
               <p>
                 {profileData.birthday ? formatDate(profileData.birthday) : 'Not specified'}
               </p>
             </div>
             <div className="profile-info-item">
-              <label>Age</label>
+              <label>العمر</label>
               <p>
                 {profileData.birthday ? calculateAge(profileData.birthday) : 'Not specified'}
               </p>
             </div>
+            <div className="profile-info-item">
+              <label>الجنس</label>
+              <p>
+                {profileData.gender == "male"? "ذكر":"أنثى"}
+              </p>
+            </div>
           </div>
-view
+          view
           <div className="profile-buttons">
             {isEditing ? (
               <button onClick={handleSaveProfile} className="edit-button">
-                Save
+                حفظ البيانات
               </button>
             ) : (
               <button onClick={handleEditProfile} className="edit-button">
-                Edit Profile
+                تعديل البيانات
               </button>
             )}
             <button onClick={() => navigate('/history')} className="history-button">
-              View History
+              مشاهدة المشاركات السابقة
             </button>
 
-            <button onClick={deleteAccount} id='Delete' className="history-button">Delete user</button>
+            <button onClick={deleteAccount} id='Delete' className="history-button">حذف الحساب </button>
 
             <button onClick={() => navigate('/home')} className="back-button">
-              Back to Home
+              العودة إلى الرئيسية
             </button>
           </div>
         </div>

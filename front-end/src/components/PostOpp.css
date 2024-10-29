@@ -1,5 +1,8 @@
 /* Container for the form */
+
+
 .post-opp-container {
+  background-image: url('public/background4.jpg');
     display: flex;
     justify-content: center;
     align-items: center;

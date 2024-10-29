@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import axios from 'axios';
+import './SignUp.css'; // Apply the existing SignUp CSS
+import './SignUpO.css';
 
 
-
-const SignUp = () => {
+const SignUpO = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  
   // Individual error states
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
@@ -73,12 +73,9 @@ const SignUp = () => {
 
     // Validate confirm password
     if (password !== confirmPassword) {
-      setConfirmPasswordError(' كلمة السر غير متطابقة ');
+      setConfirmPasswordError('كلمة السر غير متطابقة');
       hasError = true;
     }
-
-    // Validate role
-    
 
     // If any error is present, return early
     if (hasError) {
@@ -91,12 +88,12 @@ const SignUp = () => {
         name,
         email,
         address,
-        password
+        password,
       });
       console.log(response.data.message);
-      setSuccess('Account created successfully!');
+      setSuccess('!تم إنشاء الحساب بنجاح');
     } catch (error) {
-      if (error.response && error.response.status === 400) { // Assuming the server returns status 409 for duplicate email
+      if (error.response && error.response.status === 400) {
         setEmailError('لديك حساب موجود بهذا البريد');
       } else {
         setSuccess('');
@@ -106,72 +103,66 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-     
-          
-          
-          
-          <form onSubmit={handleSubmit}>
-            <label className='rtl-text'>اسم المنظمة:</label>
-            {nameError && <p className='rtl-text' style={{ color: 'red',display:"inline" }}> {nameError}</p>} {/* Error message for name */}
-            <input
-              className='inputDispalyBlock'
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Name"
-            />
+    <div className="signup-form">
+      <form onSubmit={handleSubmit}>
+        <h2 className="form-title">تسجيل حساب المنظمة</h2>
 
-            <label className='rtl-text'>البريد الالكتروني:</label>
-            {emailError && <p className='rtl-text' style={{ color: 'red',display:"inline" }}> {emailError}</p>} {/* Error message for email */}
-            <input
-              className='inputDispalyBlock'
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email (e.g., yourname@gmail.com)"
-            />
+        <label className="rtl-text">اسم المنظمة:</label>
+        {nameError && <p className="error-message">{nameError}</p>}
+        <input
+          className="input-field"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="الاسم"
+        />
 
-            <label className='rtl-text'>العنوان:</label>
-            {addressError && <p className='rtl-text' style={{ color: 'red',display:"inline" }}> {addressError}</p>} {/* Error message for address */}
-            <input
-              className='inputDispalyBlock'
-              type="address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Address"
-            />
+        <label className="rtl-text">البريد الإلكتروني:</label>
+        {emailError && <p className="error-message">{emailError}</p>}
+        <input
+          className="input-field"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="(yourname@gmail.com) مثل"
+        />
 
-            <label className='rtl-text'>كلمة السر:</label>
-            {passwordError && <p className='rtl-text' style={{ color: 'red',display:"inline" }}> {passwordError}</p>} {/* Error message for password */}
-            <input
-              className='inputDispalyBlock'
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
+        <label className="rtl-text">العنوان:</label>
+        {addressError && <p className="error-message">{addressError}</p>}
+        <input
+          className="input-field"
+          type="text"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="العنوان"
+        />
 
-            <label className='rtl-text'>تأكيد كلمة السر:</label>
-            {confirmPasswordError && <p className='rtl-text' style={{ color: 'red',display:"inline" }}> {confirmPasswordError}</p>} {/* Error message for confirm password */}
-            <input
-              className='inputDispalyBlock'
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm Password"
-            />
-            
+        <label className="rtl-text">كلمة السر:</label>
+        {passwordError && <p className="error-message">{passwordError}</p>}
+        <input
+          className="input-field"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="كلمة السر"
+        />
 
-            
-            
-            {success && <p style={{ color: 'green',textAlign:"center" }}>{success}</p>} {/* Success message */}
-            <br />
-            <button type="submit">انشاء حساب</button>
-          </form>
-          
-         
-        </div>
+        <label className="rtl-text">تأكيد كلمة السر:</label>
+        {confirmPasswordError && <p className="error-message">{confirmPasswordError}</p>}
+        <input
+          className="input-field"
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="تأكيد كلمة السر"
+        />
+
+        {success && <p className="success-message">{success}</p>}
+
+        <button className="submit-button" type="submit">انشاء حساب</button>
+      </form>
+    </div>
   );
 };
-export default SignUp;
+
+export default SignUpO;

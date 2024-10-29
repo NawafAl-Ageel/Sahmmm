@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Header from './Header'; // Assuming you have a Header component
+import Header from './Header'; 
 import { Link } from 'react-router-dom';
+import './SignIn.css';
 
 const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
-  const [role, setRole] = useState('volunteer'); // Default to volunteer
+  const [role, setRole] = useState('volunteer');
   const [volunteer, setVolunteer] = useState({ email: '', password: '' });
   const [organization, setOrganization] = useState({ email: '', password: '' });
-  const [error, setError] = useState(''); // حالة لتخزين رسالة الخطأ
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
 
   const handleVolunteerChange = (e) => {
@@ -23,6 +25,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
 
   const handleVolunteerLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading animation
     try {
       const response = await axios.post('http://localhost:5000/singin-volunteer', {
         ...volunteer,
@@ -31,16 +34,21 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
       localStorage.setItem('authToken', response.data.token);
       setVolunteerToken(response.data.token);
       setUser(response.data.user);
-      navigate('/volunteerhome');
-      setError(''); // مسح رسالة الخطأ إذا تم تسجيل الدخول بنجاح
+      setError('');
+      setTimeout(() => {
+        setIsLoading(false); // End loading animation
+        navigate('/volunteerhome');
+      }, 1000); // Wait 1 second before navigating
     } catch (error) {
-      setError('خطأ في تسجيل الدخول للمساهم: الرجاء التحقق من البريد الإلكتروني وكلمة المرور'); // تعيين رسالة الخطأ
-      console.error('Error logging in volunteer:', error.response.data);
+      setIsLoading(false); // Stop loading animation
+      setError('خطأ في تسجيل الدخول للمساهم: الرجاء التحقق من البريد الإلكتروني وكلمة المرور');
+      console.error('Error logging in volunteer:', error.response?.data);
     }
   };
 
   const handleOrganizationLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading animation
     try {
       const response = await axios.post('http://localhost:5000/singin-organization', {
         ...organization,
@@ -49,11 +57,15 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
       localStorage.setItem('authToken', response.data.token);
       setOrganizationToken(response.data.token);
       setUser(response.data.user);
-      navigate('/organizationhome');
-      setError(''); // مسح رسالة الخطأ إذا تم تسجيل الدخول بنجاح
+      setError('');
+      setTimeout(() => {
+        setIsLoading(false); // End loading animation
+        navigate('/organizationhome');
+      }, 3000); // Wait 1 second before navigating
     } catch (error) {
-      setError('خطأ في تسجيل الدخول للمنظمة: الرجاء التحقق من البريد الإلكتروني وكلمة المرور'); // تعيين رسالة الخطأ
-      console.error('Error logging in organization:', error.response.data);
+      setIsLoading(false); // Stop loading animation
+      setError('خطأ في تسجيل الدخول للمنظمة: الرجاء التحقق من البريد الإلكتروني وكلمة المرور');
+      console.error('Error logging in organization:', error.response?.data);
     }
   };
 
@@ -66,7 +78,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
             <h1 className="main-title">تسجيل الدخول</h1>
 
             <div className="radio-group">
-            <label>منظمة
+              <label>منظمة
                 <input
                   className="radio-group"
                   type="radio"
@@ -76,7 +88,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                   onChange={() => setRole('organization')}
                 />
               </label>
-              
+
               <label className="radio-inline" htmlFor="volunteer">مساهم
                 <input
                   className="radio-group"
@@ -88,10 +100,12 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                 />
               </label>
             </div>
-            {error && <p style={{ color: 'red' }}>{error}</p>} {/* عرض رسالة الخطأ هنا */}
+
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
             {role === 'volunteer' ? (
               <form onSubmit={handleVolunteerLogin}>
-                <label className ="log-in">البريد الالكتروني:</label>
+                <label className="log-in">البريد الالكتروني:</label>
                 <input
                   className="inputDispalyBlock"
                   type="email"
@@ -101,7 +115,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                   onChange={handleVolunteerChange}
                   required
                 />
-                <label className ="log-in">كلمة السر :</label>
+                <label className="log-in">كلمة السر :</label>
                 <input
                   className="inputDispalyBlock"
                   type="password"
@@ -111,11 +125,13 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                   onChange={handleVolunteerChange}
                   required
                 />
-                <button type="submit">تسجيل الدخول</button>
+                <button type="submit" className="login-button">
+                  {isLoading ? <div className="loader"></div> : 'تسجيل الدخول'}
+                </button>
               </form>
             ) : (
               <form onSubmit={handleOrganizationLogin}>
-                 <label className ="log-in">البريد الالكتروني:</label>
+                <label className="log-in">البريد الالكتروني:</label>
                 <input
                   className="inputDispalyBlock"
                   type="email"
@@ -125,7 +141,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                   onChange={handleOrganizationChange}
                   required
                 />
-                 <label className ="log-in"><span> كلمة السر</span> <span> :</span></label>
+                <label className="log-in">كلمة السر :</label>
                 <input
                   className="inputDispalyBlock"
                   type="password"
@@ -135,12 +151,12 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                   onChange={handleOrganizationChange}
                   required
                 />
-                
-                <button type="submit">تسجيل الدخول</button>
+                <button type="submit" className="login-button">
+                  {isLoading ? <div className="loader"></div> : 'تسجيل الدخول'}
+                </button>
               </form>
             )}
 
-           
             <br />
             <Link className='AccountSwitch' to="/singup">ليس لديك حساب ؟</Link>
           </div>

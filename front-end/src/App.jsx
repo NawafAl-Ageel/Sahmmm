@@ -11,7 +11,8 @@ import OpportunityDetails from './components/OpportunityDetails'; // For viewing
 import OrganizationRequests from './components/OrganizationRequests'; // Import the organization requests component
 import Home from "./components/Home";
 import History from './components/History';
-import "./components/ProjectStyle.css";
+import "./components/style/ProjectStyle.css";
+
 
 const App = () => {
   const [volunteerToken, setVolunteerToken] = useState(null);
@@ -23,6 +24,27 @@ const App = () => {
     setOrganizationToken(null);
     setUser(null);
     localStorage.removeItem('authToken');
+
+    useEffect(() => {
+      const link = document.createElement('link');
+      link.href = 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap';
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+    }, []);
+  };
+
+  const SignUpV = () => {
+    useEffect(() => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+      link.integrity = 'sha512-jQbM1IFiR5qIYeQzP+0HO4xhdq3kn6zm3yexQa68M1ScSae6TXqK/nfjZRA5KSmk2x84ltx5d3/YF16bZFAF3w==';
+      link.crossOrigin = 'anonymous';
+      link.referrerPolicy = 'no-referrer';
+      document.head.appendChild(link);
+    }, []);
+    
+    // Rest of your component code here...
   };
 
   console.log('Volunteer Token:', volunteerToken);
@@ -110,7 +132,7 @@ const App = () => {
                     handleLogout={handleLogout} 
                   />} 
                 />
-                 <Route path="/history" 
+                <Route path="/history" 
                   element={<History 
                     user={user} 
                     handleLogout={handleLogout}  

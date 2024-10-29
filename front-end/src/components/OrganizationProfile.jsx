@@ -52,6 +52,7 @@ const OrganizationProfile = ({ user, setUser, setOrganizationToken, handleLogout
   if (!profileData) return <div>Loading...</div>;
 
   return (
+    
     <div>
       <HeaderO name={user.name} handleLogout={handleLogout} />
       <h2>Organization Profile</h2>

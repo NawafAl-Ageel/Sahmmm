@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import './SignUpV.css'; // Import the new CSS for styling
 
 const SignUpV = () => {
   const [name, setName] = useState('');
@@ -7,7 +8,9 @@ const SignUpV = () => {
   const [birthday, setBirthday] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [city, setCity] = useState(''); // Add city state
+  const [city, setCity] = useState('');
+  const [gender, setGender] = useState('');
+  const [success, setSuccess] = useState('');
 
   // Individual error states
   const [nameError, setNameError] = useState('');
@@ -15,8 +18,8 @@ const SignUpV = () => {
   const [birthdayError, setBirthdayError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [cityError, setCityError] = useState(''); // Add city error state
-  const [success, setSuccess] = useState(''); // Success message
+  const [cityError, setCityError] = useState('');
+  const [genderError, setGenderError] = useState('');
 
   const isValidEmail = (email) => {
     const emailRegex = /^[\w-\.]+@(gmail|outlook)\.com$/;
@@ -37,11 +40,16 @@ const SignUpV = () => {
     setBirthdayError('');
     setPasswordError('');
     setConfirmPasswordError('');
-    setCityError(''); // Reset city error
+    setCityError('');
+    setGenderError('');
     setSuccess('');
-
     let hasError = false;
 
+    // Validate gender
+    if (!gender) {
+      setGenderError('يرجى اختيار الجنس');
+      hasError = true;
+    }
     // Validate name
     if (!name) {
       setNameError('الاسم مطلوب');
@@ -95,10 +103,11 @@ const SignUpV = () => {
         email,
         birthday,
         password,
-        city // Add city to the request payload
+        city,
+        gender
       });
       console.log(response.data.message);
-      setSuccess('Account created successfully!');
+      setSuccess('تم إنشاء الحساب بنجاح!');
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setEmailError('لديك حساب موجود بهذا البريد');
@@ -110,72 +119,99 @@ const SignUpV = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label className='rtl-text'>اسم المساهم:</label>
-        {nameError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}> {nameError}</p>}
+    <div className="signup-container">
+      <form onSubmit={handleSubmit} className="signup-form">
+        <label className="rtl-text">اسم المساهم:</label>
+        {nameError && <p className="error-text">{nameError}</p>}
         <input
-          className='inputDispalyBlock'
+          className="input-field"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
+          placeholder="الاسم"
         />
 
-        <label className='rtl-text'> البريد الاكتروني:</label>
-        {emailError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}> {emailError}</p>}
+        <label className="rtl-text">البريد الإلكتروني:</label>
+        {emailError && <p className="error-text">{emailError}</p>}
         <input
-          className='inputDispalyBlock'
+          className="input-field"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email (e.g., yourname@gmail.com)"
+          placeholder="(yourname@gmail.com) مثل"
         />
 
-        <label className='rtl-text'>تاريخ الميلاد:</label>
-        {birthdayError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}> {birthdayError}</p>}
+        <label className="rtl-text">تاريخ الميلاد:</label>
+        {birthdayError && <p className="error-text">{birthdayError}</p>}
         <input
-          className='inputDispalyBlock'
+          className="input-field"
           type="date"
           value={birthday}
           onChange={(e) => setBirthday(e.target.value)}
         />
 
-        <label className='rtl-text'>المدينة:</label> {/* Add label for city */}
-        {cityError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}>{cityError}</p>}
+        <label className="rtl-text">المدينة:</label>
+        {cityError && <p className="error-text">{cityError}</p>}
         <input
-          className='inputDispalyBlock'
+          className="input-field"
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="City"
+          placeholder="المدينة"
         />
 
-        <label className='rtl-text'>كلمة السر:</label>
-        {passwordError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}>{passwordError}</p>}
+        <label className="rtl-text">كلمة السر:</label>
+        {passwordError && <p className="error-text">{passwordError}</p>}
         <input
-          className='inputDispalyBlock'
+          className="input-field"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder="كلمة السر"
         />
 
-        <label className='rtl-text'>تأكيد كلمة السر:</label>
-        {confirmPasswordError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}>{confirmPasswordError}</p>}
+        <label className="rtl-text">تأكيد كلمة السر:</label>
+        {confirmPasswordError && <p className="error-text">{confirmPasswordError}</p>}
         <input
-          className='inputDispalyBlock'
+          className="input-field"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirm Password"
+          placeholder="تأكيد كلمة المرور"
         />
 
-        {success && <p style={{ color: 'green', textAlign: 'center' }}>{success}</p>}
-        <br />
-        <button type="submit">انشاء حساب</button>
+<label className="rtl-text">الجنس:</label>
+{genderError && <p className="error-text">{genderError}</p>}
+<div className="gender-selection">
+  <label>
+    <input
+      type="radio"
+      name="gender"
+      value="male"
+      checked={gender === 'male'}
+      onChange={(e) => setGender(e.target.value)}
+    />
+    <i className="fas fa-mars"></i> ذكر
+    <img src='public/male.png'></img>
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="gender"
+      value="female"
+      checked={gender === 'female'}
+      onChange={(e) => setGender(e.target.value)}
+    />
+    <i className="fas fa-venus"></i> أُنثى
+    <img src='public/female.png'></img>
+  </label>
+</div>
+
+        {success && <p className="success-text">{success}</p>}
+        <button type="submit" className="signup-button">انشاء حساب</button>
       </form>
     </div>
   );
 };
+
 export default SignUpV;

@@ -9,18 +9,18 @@ const VolunteerProfileModal = ({ volunteer, onClose }) => {
         <button className="close-button" onClick={onClose}>
           X
         </button>
-        <h2>Volunteer Profile</h2>
+        <h2>حساب المساهم</h2>
         <img
           src={`http://localhost:5000${volunteer.profilePicture || '/images/default-profile.png'}`}
           alt={volunteer.name}
           className="volunteer-profile-picture"
         />
-        <p><strong>Name:</strong> {volunteer.name}</p>
-        <p><strong>Email:</strong> {volunteer.email}</p>
-        <p><strong>City:</strong> {volunteer.city}</p>
-        <p><strong>Date of Birth:</strong> {new Date(volunteer.birthday).toLocaleDateString()}</p>
-        <p><strong>Opportunities Participated:</strong> {volunteer.opportunitiesParticipated}</p>
-        <p><strong>Current Opportunities:</strong> {volunteer.currentOpportunities}</p>
+        <p><strong>الاسم:</strong> {volunteer.name}</p>
+        <p><strong>البريدالإلكتروني:</strong> {volunteer.email}</p>
+        <p><strong>المدينة:</strong> {volunteer.city}</p>
+        <p><strong>تاريخ الميلاد:</strong> {new Date(volunteer.birthday).toLocaleDateString()}</p>
+        <p><strong>مساهمات سابقة:</strong> {volunteer.opportunitiesParticipated}</p>
+        <p><strong>مساهمات حالية:</strong> {volunteer.currentOpportunities}</p>
       </div>
     </div>
   );

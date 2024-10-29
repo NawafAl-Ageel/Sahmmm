@@ -12,6 +12,7 @@
   }
   
   .modal-content {
+    color: #333;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -99,3 +100,96 @@
     margin-top: 15px;
   }
   
+  .mdry{
+    display: flex;
+    flex-direction: column;
+  }
+
+/* Confirmation Modal Styles */
+.confirm-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+}
+
+.confirm-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-modal-content p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.confirm-button, .cancel-button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.confirm-button {
+  background-color: #45a049; /* Green */
+  color: white;
+}
+
+.cancel-button {
+  background-color: #ccc; /* Grey */
+}
+
+.confirm-button:hover {
+  background-color: #3b883f; /* Darker Green */
+}
+
+.cancel-button:hover {
+  background-color: #bbb; /* Darker Grey */
+}
+
+/* Feedback Message Styles */
+.feedback-message {
+  position: fixed;
+  top: 80px; /* Adjusted to prevent overlap with header */
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #45a049; /* Green */
+  color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  z-index: 1100; /* Ensure it appears above other elements */
+  animation: slideIn 0.5s, fadeOut 2.5s 0.5s; /* Updated animation timing */
+}
+
+/* Animations for feedback */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

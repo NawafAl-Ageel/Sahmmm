@@ -64,7 +64,7 @@ const OrganizationRequests = ({ user }) => {
       <h1>طلبات المشاركة</h1>
       <br />
       {requests.length === 0 ? (
-        <p>No participation requests.</p>
+        <p>.لا يوجد طلبات</p>
       ) : (
         requests.map((req) => (
           <div key={req._id} className="request-card">
@@ -79,7 +79,7 @@ const OrganizationRequests = ({ user }) => {
                 <p id="Req-title">{req.opportunity.title}</p>
                 {/* Button to view the full profile */}
                 <button className="view-profile" onClick={() => handleViewProfile(req.volunteer)}>
-                  View Profile
+                  رؤية الحساب
                 </button>
               </div>
             </div>
@@ -88,19 +88,19 @@ const OrganizationRequests = ({ user }) => {
                 <>
                   <button
                     className="accept-btn"
-                    onClick={() => handleRequestUpdate(req._id, 'accepted')}
+                    onClick={() => handleRequestUpdate(req._id, 'مقبول')}
                   >
-                    Accept
+                    قبول
                   </button>
                   <button
                     className="reject-btn"
-                    onClick={() => handleRequestUpdate(req._id, 'rejected')}
+                    onClick={() => handleRequestUpdate(req._id, 'مرفوض')}
                   >
-                    Reject
+                    رفض
                   </button>
                 </>
               ) : (
-                <p>Status: {req.status}</p>
+                <p>{req.status}</p>
               )}
             </div>
           </div>

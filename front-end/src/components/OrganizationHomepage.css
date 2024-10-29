@@ -49,3 +49,80 @@
     color: #666;
   }
   
+  .delete-button{
+    font-weight: 200;
+  background-color: brown;;
+  color: white;
+  border: none;
+  padding: 7px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+  }
+  .edit-opportunity-form-container {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  .edit-opportunity-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .edit-opportunity-form label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .edit-opportunity-form input[type="text"],
+  .edit-opportunity-form input[type="date"],
+  .edit-opportunity-form input[type="number"],
+  .edit-opportunity-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .edit-opportunity-form textarea {
+    height: 100px;
+  }
+  
+  .edit-opportunity-form .form-actions {
+    margin-top: 20px;
+    text-align: left;
+  }
+  
+  .edit-opportunity-form .submit-button,
+  .edit-opportunity-form .cancel-button {
+    margin-left: 10px;
+  }
+  .form-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .red-button {
+    background-color:brown;;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .red-button:hover {
+    background-color:brown;;
+  }
+
+  .edit-button {
+    font-weight: 200;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+
+  }

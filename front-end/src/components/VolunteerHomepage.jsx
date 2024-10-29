@@ -8,6 +8,9 @@ const VolunteerHomepage = ({ user, handleLogout }) => {
   const [opportunities, setOpportunities] = useState([]);
   const [selectedOpportunity, setSelectedOpportunity] = useState(null); // State for the selected opportunity
   const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [searchTerm, setSearchTerm] = useState(''); // State for search input
+  const [filter, setFilter] = useState('all'); // State for filter dropdown
+  const [date, setDate] = useState(''); // State for date input
 
   useEffect(() => {
     // Fetch all opportunities when the component loads
@@ -39,32 +42,97 @@ const VolunteerHomepage = ({ user, handleLogout }) => {
     setSelectedOpportunity(null); // Reset the selected opportunity
   };
 
+  // Filter and search opportunities
+  const filteredOpportunities = opportunities.filter((opp) => {
+    const matchesSearch = opp.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = filter === 'all' || opp.type === filter;
+    const matchesDate = !date || new Date(opp.date).toLocaleDateString() === date;
+
+    return matchesSearch && matchesFilter && matchesDate;
+  });
+
   return (
     <div>
       <HeaderV name={user.name} handleLogout={handleLogout} />
       <div className="main-section">
-        <h1 className="page-title">فرص تطوعية</h1> {/* Title for volunteer opportunities */}
+        <div className="homepage-container"> {/* Add this container */}
+          {/* Search, Filter, and Date Controls */}
+          <div className="search-filter-container">
+            <input
+              type="text"
+              placeholder="ابحث"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="date-input"
+            />
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="filter-dropdown"
+            >
+              <option value="all">الكل</option>
+              <option value="program">بيئية</option>
+              <option value="workshop">صحية</option>
+              <option value="meetup">تنظيمية</option>
+              <option value="webinar">اجتماعية</option>
+              <option value="education">تعليمية</option>
+              <option value="recreational">ترفيهية</option>
+              <option value="sports">رياضية</option>
+              <option value="relief">إغاثية</option>
+            </select>
+          </div>
 
-        <div className="opportunities-container">
-          {opportunities.length > 0 ? (
-            opportunities.map((opp) => (
-              <div 
-                key={opp._id} 
-                className="opportunity-card" 
-                onClick={() => handleCardClick(opp)} // Set the opportunity and show modal
-              >
-                <img 
-                  src={`http://localhost:5000/uploads/${opp.image}`} 
-                  alt={opp.title} 
-                  className="opportunity-image"
-                />
-                <h3 className="opportunity-title">{opp.title}</h3> {/* Display the title */}
-                <p className="opportunity-date">{new Date(opp.date).toLocaleDateString()}</p>
-              </div>
-            ))
-          ) : (
-            <p>No opportunities found.</p>
-          )}
+          {/* Opportunities Container */}
+          <div className="opportunities-container">
+            {filteredOpportunities.length > 0 ? (
+              filteredOpportunities.map((opp) => {
+                const isFutureDate = new Date(opp.date) > new Date(); // Check if the date is in the future
+                const hasVacancy = opp.participantsNeeded > opp.currentParticipants; // Check if spots are available
+
+                return (
+                  <div key={opp._id} className="opportunity-card" onClick={() => handleCardClick(opp)}>
+                    <img 
+                      src={`http://localhost:5000/uploads/${opp.image}`} 
+                      alt={opp.title} 
+                      className="opportunity-image"
+                    />
+
+                    {/* Conditional Category and Registration Status */}
+                    <div className="opportunity-header">
+                      {isFutureDate && hasVacancy ? (
+                        <span className="status-label available">متاح التسجيل</span>
+                      ) : (
+                        <span className="status-label unavailable">مغلق للتسجيل</span>
+                      )}
+                    </div>
+
+                    {/* Opportunity Title */}
+                    <h3 className="opportunity-title">{opp.title}</h3>
+
+                    {/* Opportunity Footer */}
+                    <div className="opportunity-footer">
+                      <div className="date">
+                        <span className="icon">📅</span>
+                        <span>{new Date(opp.date).toLocaleDateString()}</span>
+                      </div>
+                      <div className="duration">
+                        <span className="icon">⏱</span>
+                        <span>مدة {opp.duration} ساعات</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <p className="no-opportunities">لا توجد فرص حالية</p>
+            )}
+          </div>
         </div>
 
         {/* Render the OpportunityDetails modal if showModal is true */}
