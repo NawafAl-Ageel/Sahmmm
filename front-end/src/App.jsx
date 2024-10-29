@@ -8,7 +8,9 @@ import OrganizationHomepage from './components/OrganizationHomepage';
 import VolunteerHomepage from './components/VolunteerHomepage';
 import PostOpp from './components/PostOpp'; // Import the PostOpp component
 import OpportunityDetails from './components/OpportunityDetails'; // For viewing details of an opportunity
+import OrganizationRequests from './components/OrganizationRequests'; // Import the organization requests component
 import Home from "./components/Home";
+import History from './components/History';
 import "./components/ProjectStyle.css";
 
 const App = () => {
@@ -77,6 +79,19 @@ const App = () => {
                     handleLogout={handleLogout} 
                   />} 
                 />
+                <Route path="/organizationrequests" 
+  element={<OrganizationRequests 
+    user={user} 
+  />} 
+/>
+
+                {/* Route for Viewing Participation Requests */}
+                <Route path="/organization/requests" 
+                  element={<OrganizationRequests 
+                    user={user} 
+                    handleLogout={handleLogout} 
+                  />} 
+                />
               </>
             ) : (
               <>
@@ -91,6 +106,19 @@ const App = () => {
                 />
                 <Route path="/volunteerhome" 
                   element={<VolunteerHomepage 
+                    user={user} 
+                    handleLogout={handleLogout} 
+                  />} 
+                />
+                 <Route path="/history" 
+                  element={<History 
+                    user={user} 
+                    handleLogout={handleLogout}  
+                  />} 
+                />
+                {/* Route for Viewing an Opportunity's Details */}
+                <Route path="/opportunity/:id" 
+                  element={<OpportunityDetails 
                     user={user} 
                     handleLogout={handleLogout} 
                   />} 

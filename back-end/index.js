@@ -1,3 +1,4 @@
+// New
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -22,6 +23,12 @@ const storage = multer.diskStorage({
   },
 });
 
+const handleCardClick = (id) => {
+  console.log('Navigating to opportunity with ID:', id); // Add this for debugging
+  navigate(`/opportunity/${id}`);
+};
+
+
 const upload = multer({ storage });
 /****************** */
 // Middleware
@@ -44,6 +51,19 @@ const verifyToken = (req, res, next) => {
     next();
   });
 };
+
+const ParticipationRequest = require('./models/ParticipationRequest');
+
+// Send a participation request
+
+
+
+
+// Accept/Reject participation request
+
+
+//*************************************************************************************************************************
+//******************************** استخدم database.js  استخدم ملف config عشان تربط بالداتابيس *************************                                                  
 mongoose.connect('mongodb+srv://nawafsoftwareeng:12345@nawaf.mexql.mongodb.net/?retryWrites=true&w=majority&appName=Nawaf',
   {
     useNewUrlParser: true,
@@ -54,14 +74,51 @@ mongoose.connect('mongodb+srv://nawafsoftwareeng:12345@nawaf.mexql.mongodb.net/?
 .then(() => console.log('Connected to MongoDB'))
 .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-// Connect to MongoDB
-// mongoose.connection.once('open', () => {
-//   console.log('Connected to MongoDB');
-// }).on('error', (error) => {
-//   console.error('Error connecting to MongoDB:', error);
-// });
+//*************************************************************************************************************************
 
 // Sign Up for Volunteer
+
+app.post('/volunteer/request/:opportunityId', verifyToken, async (req, res) => {
+  if (req.userRole !== 'volunteer') {
+    return res.status(403).json({ message: 'Only volunteers can request participation.' });
+  }
+
+  const opportunityId = req.params.opportunityId;
+  const volunteerId = req.userId;
+
+  try {
+    // Find the opportunity and organization related to it
+    const opportunity = await Opportunity.findById(opportunityId);
+    if (!opportunity) {
+      return res.status(404).json({ message: 'Opportunity not found.' });
+    }
+
+    // Check if a request already exists
+    const existingRequest = await ParticipationRequest.findOne({
+      volunteer: volunteerId,
+      opportunity: opportunityId,
+    });
+
+    if (existingRequest) {
+      return res.status(400).json({ message: 'Request already submitted.' });
+    }
+
+    // Create a new participation request
+    const newRequest = new ParticipationRequest({
+      volunteer: volunteerId,
+      opportunity: opportunityId,
+      organization: opportunity.organization,
+    });
+
+    await newRequest.save();
+    res.status(200).json({ message: 'Request sent successfully.' });
+
+  } catch (error) {
+    console.error('Error sending request:', error);
+    res.status(500).json({ message: 'Server error while sending request.' });
+  }
+});
+
 app.post('/singup-volunteer', async (req, res) => {
   const { name, email, birthday,city, password } = req.body;
 
@@ -192,6 +249,34 @@ app.post('/singin-organization', async (req, res) => {
   }
 });
 
+app.put('/organization/requests/:id', verifyToken, async (req, res) => {
+  const requestId = req.params.id;
+  const { status } = req.body;
+
+  // Ensure the user making the request is an organization
+  if (req.userRole !== 'organization') {
+    return res.status(403).json({ message: 'Access forbidden: not an organization' });
+  }
+
+  try {
+    // Find the request by ID and update its status
+    const updatedRequest = await ParticipationRequest.findByIdAndUpdate(
+      requestId,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedRequest) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    res.status(200).json(updatedRequest);
+  } catch (error) {
+    console.error('Error updating request status:', error);
+    res.status(500).json({ message: 'Error updating request status', error });
+  }
+});
+
 // Middleware to Verify JWT Token
 
 
@@ -209,52 +294,98 @@ app.get('/organization-profile', verifyToken, async (req, res) => {
   }
 });
 
-// Volunteer Profile Route
-app.get('/volunteerprofile', verifyToken, async (req, res) => {
-  if (req.userRole !== 'volunteer') {
-    return res.status(403).json({ message: 'Access forbidden: not a volunteer' });
+// يطلع status
+app.get('/organization/requests', verifyToken, async (req, res) => {
+  if (req.userRole !== 'organization') {
+    return res.status(403).json({ message: 'Access forbidden: only organizations can view requests.' });
   }
 
   try {
-    const volunteer = await Volunteer.findById(req.userId);
-    if (!volunteer) {
-      return res.status(404).json({ message: 'Volunteer not found' });
-    }
-    res.json(volunteer);
+    const requests = await ParticipationRequest.find({ organization: req.userId })
+      .populate('volunteer')
+      .populate('opportunity');
+      
+    res.json(requests);
+
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching volunteer profile' });
+    console.error('Error fetching requests:', error);
+    res.status(500).json({ message: 'Server error while fetching requests.' });
   }
 });
 
-// Edit Volunteer Profile
-app.put('/volunteerprofile', verifyToken, async (req, res) => {
-  if (req.userRole !== 'volunteer') {
-    return res.status(403).json({ message: 'Access forbidden: not a volunteer' });
-  }
-
-  const { name, email, birthday, password } = req.body;
-
+// In index.js (backend)
+app.get('/volunteer/request-status/:opportunityId', verifyToken, async (req, res) => {
+  const { opportunityId } = req.params;
+  
   try {
-    const volunteer = await Volunteer.findById(req.userId);
-    if (!volunteer) {
-      return res.status(404).json({ message: 'Volunteer not found' });
+    const existingRequest = await ParticipationRequest.findOne({
+      opportunity: opportunityId,
+      volunteer: req.userId,
+    });
+    
+    if (!existingRequest) {
+      return res.json({ status: 'idle' }); // No request found
     }
-
-    volunteer.name = name || volunteer.name;
-    volunteer.email = email || volunteer.email;
-    volunteer.birthday = birthday || volunteer.birthday;
-
-    if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      volunteer.password = hashedPassword;
-    }
-
-    await volunteer.save();
-    res.json({ message: 'Profile updated successfully', volunteer });
+    
+    res.json({ status: existingRequest.status }); // Return the request status (e.g., 'pending', 'accepted', 'rejected')
   } catch (error) {
-    res.status(500).json({ message: 'Error updating volunteer profile', error });
+    console.error('Error fetching request status:', error);
+    res.status(500).json({ message: 'Error fetching request status' });
   }
 });
+
+
+//*************************************************************************************************************************
+//******************************** Volunteer Profile Route for User schema... ما نحتاجه لاننا فصلناه *********************   
+
+// app.get('/volunteerprofile', verifyToken, async (req, res) => {
+//   if (req.userRole !== 'volunteer') {
+//     return res.status(403).json({ message: 'Access forbidden: not a volunteer' });
+//   }
+
+//   try {
+//     const volunteer = await Volunteer.findById(req.userId);
+//     if (!volunteer) {
+//       return res.status(404).json({ message: 'Volunteer not found' });
+//     }
+//     res.json(volunteer);
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error fetching volunteer profile' });
+//   }
+// });
+
+//*************************************************************************************************************************
+//*********************************************** Edit Volunteer Profile for User schema... ما نحتاجه لانه قديم **********
+
+// app.put('/volunteerprofile', verifyToken, async (req, res) => {
+//   if (req.userRole !== 'volunteer') {
+//     return res.status(403).json({ message: 'Access forbidden: not a volunteer' });
+//   }
+//   const { name, email, birthday, password } = req.body;
+
+//   try {
+//     const volunteer = await Volunteer.findById(req.userId);
+//     if (!volunteer) {
+//       return res.status(404).json({ message: 'Volunteer not found' });
+//     }
+
+//     volunteer.name = name || volunteer.name;
+//     volunteer.email = email || volunteer.email;
+//     volunteer.birthday = birthday || volunteer.birthday;
+
+//     if (password) {
+//       const hashedPassword = await bcrypt.hash(password, 10);
+//       volunteer.password = hashedPassword;
+//     }
+
+//     await volunteer.save();
+//     res.json({ message: 'Profile updated successfully', volunteer });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error updating volunteer profile', error });
+//   }
+// });
+
+//**************************************************************************************************
 
 // Delete Organization Account
 app.delete('/deleteorganization', verifyToken, async (req, res) => {
@@ -276,23 +407,25 @@ app.delete('/deleteorganization', verifyToken, async (req, res) => {
 
 app.delete('/deletevolunteer', verifyToken, async (req, res) => {
   try {
-    // Get volunteer's ID from the verified token
-    const volunteerId = req.userId;
+    console.log('Attempting to delete volunteer with ID:', req.userId);
 
-    // Find and delete the volunteer from the database
-    const deletedVolunteer = await Volunteer.findByIdAndDelete(volunteerId);
+    // البحث عن المتطوع وحذفه
+    const deletedVolunteer = await Volunteer.findByIdAndDelete(req.userId);
 
     if (!deletedVolunteer) {
+      console.log('Volunteer not found for deletion');
       return res.status(404).json({ message: 'Volunteer not found' });
     }
 
-    // Send success response after successful deletion
-    res.status(200).json({ message: 'Volunteer account deleted successfully' });
+    console.log('Volunteer deleted successfully:', deletedVolunteer);
+    res.status(200).json({ message: 'Volunteer deleted successfully' });
   } catch (error) {
-    console.error('Error deleting volunteer account:', error);
-    res.status(500).json({ message: 'Server error while deleting volunteer account' });
+    console.error('Error deleting volunteer:', error);
+    res.status(500).json({ message: 'Error deleting volunteer', error: error.message });
   }
 });
+
+
 
 
 // Start Server
@@ -341,6 +474,64 @@ app.post('/organization/postopportunity', upload.single('image'), verifyToken, a
   }
 });
 
+// Get Volunteer Profile
+app.get('/volunteerprofile', verifyToken, async (req, res) => {
+  try {
+    const volunteer = await Volunteer.findById(req.userId);
+
+    if (!volunteer) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+
+    res.json(volunteer);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching profile', error });
+  }
+});
+
+// Update Volunteer Profile (City of Residence)
+
+
+app.put('/volunteerprofile', verifyToken, async (req, res) => {
+  try {
+    // العثور على المتطوع باستخدام userId
+    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+      req.userId,
+      { city: req.body.city },
+      { new: true, runValidators: true } // Return updated document and apply validation
+    );
+
+    if (!updatedVolunteer) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+
+    res.status(200).json(updatedVolunteer);
+  } catch (error) {
+    console.error('Error updating volunteer profile:', error);
+    res.status(500).json({ message: 'Error updating volunteer profile', error });
+  }
+});
+
+
+// Upload Volunteer Profile Picture
+app.put('/volunteerprofile/picture', verifyToken, upload.single('profilePicture'), async (req, res) => {
+  try {
+    const updatedVolunteer = await Volunteer.findByIdAndUpdate(
+      req.userId,
+      { profilePicture: `/uploads/${req.file.filename}` },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedVolunteer) {
+      return res.status(404).json({ message: 'Volunteer not found' });
+    }
+
+    res.status(200).json(updatedVolunteer);
+  } catch (error) {
+    console.error('Error updating profile picture:', error);
+    res.status(500).json({ message: 'Error updating profile picture', error });
+  }
+});
 
 // Fetch all opportunities posted by the authenticated organization
 app.get('/organization/opportunities', verifyToken, async (req, res) => {
@@ -370,3 +561,15 @@ app.get('/opportunity/:id', verifyToken, async (req, res) => {
     res.status(500).json({ message: 'Error fetching opportunity', error });
   }
 });
+
+// Fetch all opportunities (for volunteer)
+app.get('/opportunities', async (req, res) => {
+  try {
+    const opportunities = await Opportunity.find(); // Fetch all opportunities
+    res.json(opportunities);
+  } catch (error) {
+    console.error('Error fetching opportunities:', error);
+    res.status(500).json({ message: 'Error fetching opportunities', error });
+  }
+});
+

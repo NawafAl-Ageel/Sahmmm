@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import SAHMLOGO from "./SAHMLOGO.png";
 import "./ProjectStyle.css";
 
-const Header = ({ name, handleLogout }) => {
+const Header = ({ name, handleLogout, onRequestsClick }) => { // Added 'onRequestsClick'
   return (
     <header>
       <div className="header">
@@ -12,7 +12,6 @@ const Header = ({ name, handleLogout }) => {
 
         <div className="nav-links">
           <ul className="navbar-nav">
-            {/* Update the Link path to match the correct route */}
             <li style={{ lineHeight: "2" }} id="PostOpp" className="nav-item">
               <Link to="/postopportunity">+ نشر فرصة</Link>
             </li>
@@ -27,11 +26,14 @@ const Header = ({ name, handleLogout }) => {
             </li>
 
             <div className="dropdown">
-              <h2 className="user-login">{name} (Organization)</h2>
+              <h2 className='user-login'>{name} (منظمة)</h2>
               <div className="dropdown-content">
-                <Link to="/organizationprofile">Profile</Link>
-                <Link to="/organizationhome">Home</Link>
-                <a onClick={handleLogout}>Logout</a>
+                <Link to="/organizationhome">الصفحة الرئيسية</Link>
+                <Link to="/organizationprofile">الملف الشخصي</Link>
+                <Link to="/GeneralQuestions">استفسارت عامة</Link>
+                {/* Modified this to trigger modal */}
+                <a onClick={onRequestsClick}>طلبات المشاركة</a> {/* <-- This will open the modal */}
+                <a onClick={handleLogout}>تسجيل الخروج</a>
               </div>
             </div>
           </ul>

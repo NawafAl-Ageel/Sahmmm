@@ -44,42 +44,42 @@ const SignUpV = () => {
 
     // Validate name
     if (!name) {
-      setNameError('Name is required.');
+      setNameError('الاسم مطلوب');
       hasError = true;
     }
 
     // Validate email
     if (!isValidEmail(email)) {
-      setEmailError('Email must end with @gmail.com or @outlook.com.');
+      setEmailError('البريد يجب ان يتضمن @gmail.com أو @outlook.com');
       hasError = true;
     }
 
     // Validate birthday
     if (!birthday) {
-      setBirthdayError('Birthday is required.');
+      setBirthdayError(' يجب ادخال تاريخ الميلاد');
       hasError = true;
     }
 
     // Validate password
     if (password.length < 8) {
-      setPasswordError('Password must be at least 8 characters long.');
+      setPasswordError('كلمة المرور يجب ألا تقل عن 8 خانات');
       hasError = true;
     }
 
     if (!isStrongPassword(password)) {
-      setPasswordError('Password must include an uppercase letter, a lowercase letter, a digit, and a special character.');
+      setPasswordError('كلمة السر يجب أن يتضمن أحرف كبيرة وصغيرة وأرقام ورموز');
       hasError = true;
     }
 
     // Validate confirm password
     if (password !== confirmPassword) {
-      setConfirmPasswordError('Passwords do not match.');
+      setConfirmPasswordError('كلمة السر غير متطابقة');
       hasError = true;
     }
 
     // Validate city
     if (!city) {
-      setCityError('City is required.');
+      setCityError('يجب ادخال المدينة');
       hasError = true;
     }
 
@@ -112,8 +112,8 @@ const SignUpV = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label>Name:</label>
-        {nameError && <p style={{ color: 'red', display: 'inline' }}> {nameError}</p>}
+        <label className='rtl-text'>اسم المساهم:</label>
+        {nameError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}> {nameError}</p>}
         <input
           className='inputDispalyBlock'
           type="text"
@@ -122,8 +122,8 @@ const SignUpV = () => {
           placeholder="Name"
         />
 
-        <label>Email:</label>
-        {emailError && <p style={{ color: 'red', display: 'inline' }}> {emailError}</p>}
+        <label className='rtl-text'> البريد الاكتروني:</label>
+        {emailError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}> {emailError}</p>}
         <input
           className='inputDispalyBlock'
           type="email"
@@ -132,8 +132,8 @@ const SignUpV = () => {
           placeholder="Email (e.g., yourname@gmail.com)"
         />
 
-        <label>Birthday:</label>
-        {birthdayError && <p style={{ color: 'red', display: 'inline' }}> {birthdayError}</p>}
+        <label className='rtl-text'>تاريخ الميلاد:</label>
+        {birthdayError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}> {birthdayError}</p>}
         <input
           className='inputDispalyBlock'
           type="date"
@@ -141,8 +141,8 @@ const SignUpV = () => {
           onChange={(e) => setBirthday(e.target.value)}
         />
 
-        <label>City:</label> {/* Add label for city */}
-        {cityError && <p style={{ color: 'red', display: 'inline' }}>{cityError}</p>}
+        <label className='rtl-text'>المدينة:</label> {/* Add label for city */}
+        {cityError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}>{cityError}</p>}
         <input
           className='inputDispalyBlock'
           type="text"
@@ -151,8 +151,8 @@ const SignUpV = () => {
           placeholder="City"
         />
 
-        <label>Password:</label>
-        {passwordError && <p style={{ color: 'red', display: 'inline' }}>{passwordError}</p>}
+        <label className='rtl-text'>كلمة السر:</label>
+        {passwordError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}>{passwordError}</p>}
         <input
           className='inputDispalyBlock'
           type="password"
@@ -161,8 +161,8 @@ const SignUpV = () => {
           placeholder="Password"
         />
 
-        <label>Confirm Password:</label>
-        {confirmPasswordError && <p style={{ color: 'red', display: 'inline' }}>{confirmPasswordError}</p>}
+        <label className='rtl-text'>تأكيد كلمة السر:</label>
+        {confirmPasswordError && <p className='rtl-text' style={{ color: 'red', display: 'inline' }}>{confirmPasswordError}</p>}
         <input
           className='inputDispalyBlock'
           type="password"
@@ -173,7 +173,7 @@ const SignUpV = () => {
 
         {success && <p style={{ color: 'green', textAlign: 'center' }}>{success}</p>}
         <br />
-        <button type="submit">Sign Up</button>
+        <button type="submit">انشاء حساب</button>
       </form>
     </div>
   );

@@ -1,0 +1,72 @@
+/* Modal overlay and content */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.3s forwards; /* Fade in animation */
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transform: scale(0.8);
+    animation: scaleUp 0.3s forwards; /* Scale-up animation */
+  }
+  
+  .opportunity-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .close-button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    float: right;
+  }
+  
+  .close-button:hover {
+    background-color: darkred;
+  }
+  
+  /* Keyframes for the fade-in animation */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  /* Keyframes for the scale-up animation */
+  @keyframes scaleUp {
+    0% {
+      transform: scale(0.8); /* Start smaller */
+    }
+    100% {
+      transform: scale(1); /* End at full size */
+    }
+  }
+  
+  p{
+    font-size: 16px;
+    color: #333;
+  }

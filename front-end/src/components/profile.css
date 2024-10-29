@@ -1,212 +1,251 @@
 /* Profile.css */
-.body{
-    background-image: url("images/sahem_background_4.jpg");
-  }
-  
-  .profile-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    min-width: 270vh;
-    width:fit-content;
-    background-color: #f4f8ff;
-    
-  }
-  
-  .profile-card {
-    display: flex;
-    max-width: 900px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: 90%;
-  }
-  
-  .profile-sidebar {
-    width: 35%;
-    background-color: #f7f9fc;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    border-right: 1px solid #e6e8eb;
-  }
-  
-  .profile-picture {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 20px;
-    border: #444 2px solid;
-  }
-  
-  .profile-name {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .profile-title {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 20px;
-  }
-  
-  .profile-stats {
-    text-align: center;
-  }
-  
-  .profile-stats p {
-    font-size: 14px;
-    margin: 5px 0;
-  }
-  
-  .stat-number {
-    font-weight: bold;
-    color: #4CAF50;
-  }
-  
-  .public-profile-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-    font-size: 14px;
-  }
-  
-  .public-profile-btn:hover {
-    background-color: #45a049;
-  }
-  
-  .profile-details {
-    padding: 30px;
-    width: 65%;
-  }
-  
-  .profile-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  
-  .profile-info-item label {
-    font-weight: bold;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  .profile-info-item p {
-    margin: 5px 0 15px;
-    font-size: 16px;
-  }
-  
-  .profile-history {
-    margin-top: 20px;
-    font-size: 14px;
-    color: #444;
-  }
-  
-  .profile-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 100px;
-  }
-  
-  .edit-button, .back-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    
-  }
-  
-  .edit-button:hover, .back-button:hover {
-    background-color: #45a049;
-  }
-  
-  p{
-    color: #444;
-  }
-  
-  
-  
-  .pfp{
-    border: #444 1px solid;
-  }
+.body {
+  background-image: url("images/sahem_background_4.jpg");
+}
 
-  /* تنسيق  delete account                                                               -------------------modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* خلفية شفافة */
+.profile-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  height: 100vh;
+  min-width: 270vh; /* Set minimum width to maintain a similar view */
+  width: fit-content;
+  background-color: #f4f8ff;
+  padding: 20px; /* Added consistent padding */
+  box-sizing: border-box;
 }
 
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 400px;
-  width: 100%;
-}
-
-.modal-content h3 {
-  margin-bottom: 15px;
-  font-size: 18px;
-}
-
-.modal-content p {
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
-.modal-actions {
+.profile-card {
   display: flex;
+  max-width: 900px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 90%;
+}
+
+.profile-sidebar {
+  width: 35%;
+  background-color: #f7f9fc;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
+  border-right: 1px solid #e6e8eb;
 }
 
-.confirm-button {
-  background-color: #e74c3c;
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: #444 2px solid; /* Ensure consistent border for profile picture */
+}
+
+.profile-name {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #4CAF50; /* Ensured consistent text color */
+}
+
+.profile-title {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.profile-stats {
+  text-align: center;
+}
+
+.profile-stats p {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #444; /* Ensured consistent text color */
+}
+
+.stat-number {
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.public-profile-btn {
+  background-color: #4CAF50;
   color: white;
-  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.public-profile-btn:hover {
+  background-color: #45a049;
+}
+
+.profile-details {
+  padding: 30px;
+  width: 65%;
+}
+
+.profile-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.profile-info-item label {
+  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+}
+
+.profile-info-item p {
+  margin: 5px 0 15px;
+  font-size: 16px;
+  color: #444; /* Ensure text is dark for better contrast */
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 100px;
+}
+
+.edit-button, .back-button, .history-button {
+  font-weight: 200;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-button:hover, .back-button:hover, .history-button:hover {
+  background-color: #45a049;
+}
+
+.history-button {
+  background-color: #000; /* Adjusted the "View History" button to match the black color */
+  color: white;
+}
+
+.history-details {
+  padding: 30px;
+  width: 65%;
+  position: relative;
+}
+
+.history-mini-cards {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  max-height: 160px; /* Adjusted height to allow scrolling if there are too many mini cards */
+  overflow-y: auto;
+}
+
+.mini-card {
+  display: flex;
+  width: 42%;
+  background-color: #4caf4f52; /* Light green background for mini cards */
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  align-items: center;
+}
+
+.mini-card-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.mini-card-content {
+  flex-grow: 1;
+}
+
+.mini-card-content h4 {
+  color: #777;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.mini-card-content p {
+  font-size: 12px;
+  color: #666;
+}
+
+.back-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #45a049;
+}
+
+.pfp {
+  border: #444 1px solid;
+}
+
+.edit-input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+
+/* profile.css */
+.profile-picture-container {
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
   transition: background-color 0.3s ease;
 }
 
-.confirm-button:hover {
-  background-color: #c0392b;
+.profile-picture-container:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Darken background on hover */
 }
 
-.cancel-button {
-  background-color: #bdc3c7;
-  color: black;
-  padding: 10px 20px;
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: #444 2px solid;
+  transition: transform 0.3s ease;
+}
+
+.upload-button {
+  background-color: #4CAF50;
+  color: white;
   border: none;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
-.cancel-button:hover {
-  background-color: #95a5a6;
+.upload-button:hover {
+  background-color: #45a049;
+}
+
+#Delete{
+  background-color: brown;
 }

@@ -13,12 +13,12 @@ const SignUp = () => {
       <div className="main-section">
         <div className="content">
           <div className="donation-form">
-            <h1 style={{ textAlign: "center" }} className="main-title">Sign Up</h1>
+            <h1 style={{ textAlign: "center" }} className="main-title">انشاء حساب</h1>
 
             {/* Radio Buttons to switch between Volunteer and Organization */}
             <div className="radio-group">
               <label className='radio-inline' htmlFor="organization">
-                Organization
+                منظمة
                 <input
                   className='radio-group'
                   type="radio"
@@ -32,7 +32,7 @@ const SignUp = () => {
               </label>
 
               <label className='radio-inline' htmlFor="volunteer">
-                Volunteer
+                مساهم
                 <input
                   className='radio-group'
                   type="radio"
@@ -54,7 +54,7 @@ const SignUp = () => {
             )}
 
             <br />
-            <Link className='AccountSwitch' to="/singin">Already have an account?</Link>
+            <Link className='AccountSwitch' to="/singin">لديك حساب ؟</Link>
           </div>
         </div>
       </div>

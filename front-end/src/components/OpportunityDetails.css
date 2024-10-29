@@ -1,0 +1,101 @@
+/* OpportunityDetails.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 700px;
+    width: 900px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    height: 740px;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .opportunity-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  #details-info {
+    text-align: right;
+    font-size: 16px;
+  }
+  
+  #description {
+    text-align: left;
+    border: 0.5px rgba(109, 109, 109, 0.527) solid;
+    padding: 5px 50px 50px 10px;
+    float: left;
+    vertical-align: top;
+    width: 375px;
+    height: 140px;
+    border-radius: 10px; /* Adds rounded corners */
+  }
+  
+  .participation-button {
+    background-color: #28a745; /* Green background */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  
+  .participation-button:hover {
+    background-color: #218838;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  
+  .participation-button.pending {
+    background-color: #6c757d; /* Grey background for pending state */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  
+  .participation-button:disabled {
+    cursor: not-allowed;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+  }
+  

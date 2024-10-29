@@ -159,8 +159,8 @@
         flex-direction: column; /* Keep form fields stacked */
         align-items: center; 
         width: 500px;
+        text-align: right;
       }
-      
       
       .main-section .donation-form .inputDispalyBlock {
         padding: 10px;
@@ -168,7 +168,7 @@
         width: 100%;
         border: 1px solid #192b1f;
         border-radius: 5px;
-        text-align: left; 
+        text-align: right; 
       }
       
       .main-section .donation-form button {
@@ -586,5 +586,11 @@ img:hover {
   padding-right: 10px;
   padding-left: 10px;
 }
+
+.rtl-text {
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
 
 

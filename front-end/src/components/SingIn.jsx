@@ -66,6 +66,17 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
             <h1 className="main-title">تسجيل الدخول</h1>
 
             <div className="radio-group">
+            <label>منظمة
+                <input
+                  className="radio-group"
+                  type="radio"
+                  name="role"
+                  value="organization"
+                  checked={role === 'organization'}
+                  onChange={() => setRole('organization')}
+                />
+              </label>
+              
               <label className="radio-inline" htmlFor="volunteer">مساهم
                 <input
                   className="radio-group"
@@ -76,20 +87,11 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                   onChange={() => setRole('volunteer')}
                 />
               </label>
-              <label>منظمة
-                <input
-                  className="radio-group"
-                  type="radio"
-                  name="role"
-                  value="organization"
-                  checked={role === 'organization'}
-                  onChange={() => setRole('organization')}
-                />
-              </label>
             </div>
             {error && <p style={{ color: 'red' }}>{error}</p>} {/* عرض رسالة الخطأ هنا */}
             {role === 'volunteer' ? (
               <form onSubmit={handleVolunteerLogin}>
+                <label className ="log-in">البريد الالكتروني:</label>
                 <input
                   className="inputDispalyBlock"
                   type="email"
@@ -99,6 +101,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                   onChange={handleVolunteerChange}
                   required
                 />
+                <label className ="log-in">كلمة السر :</label>
                 <input
                   className="inputDispalyBlock"
                   type="password"
@@ -112,6 +115,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
               </form>
             ) : (
               <form onSubmit={handleOrganizationLogin}>
+                 <label className ="log-in">البريد الالكتروني:</label>
                 <input
                   className="inputDispalyBlock"
                   type="email"
@@ -121,6 +125,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                   onChange={handleOrganizationChange}
                   required
                 />
+                 <label className ="log-in"><span> كلمة السر</span> <span> :</span></label>
                 <input
                   className="inputDispalyBlock"
                   type="password"

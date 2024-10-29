@@ -3,9 +3,9 @@ import axios from 'axios';
 import './profile.css';
 import './ProjectStyle.css';
 import { useNavigate } from 'react-router-dom';
-import HeaderV from './HeaderV';
-
-const VolunteerProfile = ({ user, setUser, setVolunteerToken, handleLogout }) => {
+import HeaderV from "./HeaderV";
+// import History from "./History"
+const VolunteerProfile = ({ user, setUser, setVolunteerToken,handleLogout }) => {
   const [profileData, setProfileData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedCity, setUpdatedCity] = useState('');
@@ -33,23 +33,45 @@ const VolunteerProfile = ({ user, setUser, setVolunteerToken, handleLogout }) =>
     fetchProfile();
   }, []);
 
+  const checkUser = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await axios.get('http://localhost:5000/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('User details:', response.data);
+    } catch (error) {
+      console.error('Error checking user:', error);
+    }
+  };
+
   const deleteAccount = async () => {
+    // In your React component
+    const check = await checkUser();
+    if (check) console.log("found user");
+  
     if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       try {
         const token = localStorage.getItem('authToken');
         console.log('Token being sent:', token);
-
+  
         const response = await axios.delete('http://localhost:5000/deletevolunteer', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
+  
+        console.log('Delete response:', response);
+  
         if (response.status === 200) {
           setVolunteerToken(null);
           setUser(null);
           localStorage.removeItem('authToken');
           console.log('Account deleted successfully');
+          
+          // Redirect to sign-up or login page after deletion
           navigate('/home');
         }
       } catch (error) {
@@ -61,6 +83,7 @@ const VolunteerProfile = ({ user, setUser, setVolunteerToken, handleLogout }) =>
       }
     }
   };
+  
 
   if (!profileData) return <div>Loading...</div>;
 
@@ -78,7 +101,7 @@ const VolunteerProfile = ({ user, setUser, setVolunteerToken, handleLogout }) =>
     if (!dateString) return 'Not specified';
     const birthDate = new Date(dateString);
     const today = new Date();
-
+    
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDifference = today.getMonth() - birthDate.getMonth();
     const dayDifference = today.getDate() - birthDate.getDate();
@@ -91,33 +114,50 @@ const VolunteerProfile = ({ user, setUser, setVolunteerToken, handleLogout }) =>
   };
 
   // Function to handle editing state
-  const handleEditProfile = () => {
-    setIsEditing(true);
-  };
+const handleEditProfile = () => {
+  setIsEditing(true);
+};
 
-  // Function to handle saving the updated city of residence
-  const handleSaveProfile = async () => {
-    try {
-      const token = localStorage.getItem('authToken');
-      await axios.put(
-        'http://localhost:5000/volunteerprofile',
-        { city: updatedCity },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+// Function to handle saving the updated city of residence
+const handleSaveProfile = async () => {
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      console.error('No token found. Please log in.');
+      return;
+    }
 
+    // Sending the updated city to the server
+    const response = await axios.put(
+      'http://localhost:5000/volunteerprofile',
+      { city: updatedCity }, // Send the updated city
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
       setProfileData((prevData) => ({
         ...prevData,
         city: updatedCity,
       }));
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Error saving updated profile:', error);
+      setIsEditing(false); // Stop editing mode after save
+
+      // Optionally, show a success message to the user
+      alert('Profile updated successfully');
     }
-  };
+  } catch (error) {
+    console.error('Error saving updated profile:', error);
+    if (error.response) {
+      alert(`Failed to save profile: ${error.response.data.message}`);
+    } else {
+      alert('Failed to save profile. Please try again later.');
+    }
+  }
+};
+
 
   // Function to handle file selection for profile picture
   const handleFileChange = (event) => {
@@ -157,113 +197,117 @@ const VolunteerProfile = ({ user, setUser, setVolunteerToken, handleLogout }) =>
     }
   };
 
+
   return (
     <div>
       <HeaderV name={user.name} handleLogout={handleLogout} />
-      <div className="profile-container">
-        <div className="profile-card">
-          <div className="profile-sidebar">
-            <div
-              className="profile-picture-container"
-              onClick={() => document.getElementById('fileInput').click()}
-            >
-              <img
-                src={`http://localhost:5000${profileData.profilePicture || '/images/default-profile.png'}`}
-                alt="Profile"
-                className="profile-picture"
-              />
-              <input
-                type="file"
-                id="fileInput"
-                style={{ display: 'none' }}
-                onChange={handleFileChange}
-              />
-            </div>
-            {selectedFile && (
-              <button onClick={handleFileUpload} className="upload-button">
-                Upload Picture
-              </button>
-            )}
-            <h2 className="profile-name">{profileData.name}</h2>
-            <p className="profile-title">Volunteer</p>
+      <div className='main-section'>
+    <div className="profile-container">
+      <div className="profile-card">
+        <div className="profile-sidebar">
+          <div
+            className="profile-picture-container"
+            onClick={() => document.getElementById('fileInput').click()}
+          >
+            <img
+  src={`http://localhost:5000${profileData.profilePicture || '/images/default-profile.png'}`}
+  alt="Profile"
+  className="profile-picture"
+/>
 
-            <div className="profile-stats">
-              <p>
-                Opportunities Participated:{' '}
-                <span className="stat-number">
-                  {profileData.opportunitiesParticipated || 0}
-                </span>
-              </p>
-              <p>
-                Current Opportunities:{' '}
-                <span className="stat-number">
-                  {profileData.currentOpportunities || 0}
-                </span>
-              </p>
-            </div>
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+          </div>
+          {selectedFile && (
+            <button onClick={handleFileUpload} className="upload-button">
+              Upload Picture
+            </button>
+          )}
+          <h2 className="profile-name">{profileData.name}</h2>
+          <p className="profile-title">Volunteer</p>
 
-            <button className="public-profile-btn">View Public Profile</button>
+          <div className="profile-stats">
+            <p>
+              Opportunities Participated:{' '}
+              <span className="stat-number">
+                {profileData.opportunitiesParticipated || 0}
+              </span>
+            </p>
+            <p>
+              Current Opportunities:{' '}
+              <span className="stat-number">
+                {profileData.currentOpportunities || 0}
+              </span>
+            </p>
           </div>
 
-          <div className="profile-details">
-            <h3>Account Information</h3>
-            <br></br>
+          <button className="public-profile-btn">View Public Profile</button>
+        </div>
 
-            <div className="profile-info">
-              <div className="profile-info-item">
-                <label>Email</label>
-                <p>{profileData.email}</p>
-              </div>
-              <div className="profile-info-item">
-                <label>City of Residence</label>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={updatedCity}
-                    onChange={(e) => setUpdatedCity(e.target.value)}
-                    className="edit-input"
-                  />
-                ) : (
-                  <p>{profileData.city || 'Not specified'}</p>
-                )}
-              </div>
-              <div className="profile-info-item">
-                <label>Date of Birth</label>
-                <p>
-                  {profileData.birthday ? formatDate(profileData.birthday) : 'Not specified'}
-                </p>
-              </div>
-              <div className="profile-info-item">
-                <label>Age</label>
-                <p>
-                  {profileData.birthday ? calculateAge(profileData.birthday) : 'Not specified'}
-                </p>
-              </div>
+        <div className="profile-details">
+          <h3>Account Information</h3>
+          <br></br>
+
+          <div className="profile-info">
+            <div className="profile-info-item">
+              <label>Email</label>
+              <p>{profileData.email}</p>
             </div>
-
-            <div className="profile-buttons">
+            <div className="profile-info-item">
+              <label>City of Residence</label>
               {isEditing ? (
-                <button onClick={handleSaveProfile} className="edit-button">
-                  Save
-                </button>
+                <input
+                  type="text"
+                  value={updatedCity}
+                  onChange={(e) => setUpdatedCity(e.target.value)}
+                  className="edit-input"
+                />
               ) : (
-                <button onClick={handleEditProfile} className="edit-button">
-                  Edit Profile
-                </button>
+                <p>{profileData.city || 'Not specified'}</p>
               )}
-              <button onClick={() => navigate('/history')} className="history-button">
-                View History
-              </button>
-
-              <button onClick={deleteAccount} id='Delete' className="history-button">Delete user</button>
-
-              <button onClick={() => navigate('/home')} className="back-button">
-                Back to Home
-              </button>
             </div>
+            <div className="profile-info-item">
+              <label>Date of Birth</label>
+              <p>
+                {profileData.birthday ? formatDate(profileData.birthday) : 'Not specified'}
+              </p>
+            </div>
+            <div className="profile-info-item">
+              <label>Age</label>
+              <p>
+                {profileData.birthday ? calculateAge(profileData.birthday) : 'Not specified'}
+              </p>
+            </div>
+          </div>
+view
+          <div className="profile-buttons">
+            {isEditing ? (
+              <button onClick={handleSaveProfile} className="edit-button">
+                Save
+              </button>
+            ) : (
+              <button onClick={handleEditProfile} className="edit-button">
+                Edit Profile
+              </button>
+            )}
+            <button onClick={() => navigate('/history')} className="history-button">
+              View History
+            </button>
+
+            <button onClick={deleteAccount} id='Delete' className="history-button">Delete user</button>
+
+            <button onClick={() => navigate('/home')} className="back-button">
+              Back to Home
+            </button>
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };

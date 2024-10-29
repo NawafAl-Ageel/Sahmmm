@@ -1,0 +1,142 @@
+/* History.css */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Match the height exactly */
+    width:fit-content; /* Ensure width fits content */
+    background-color: #f4f8ff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profile-card {
+    display: flex;
+    max-width: 900px; /* Same max-width as Profile */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 90%; /* Same width as Profile */
+}
+
+.profile-sidebar {
+    width: 35%;
+    background-color: #f7f9fc;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-right: 1px solid #e6e8eb;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: #444 2px solid; /* Add border as in Profile */
+}
+
+.profile-name {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.profile-title {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.profile-stats {
+    text-align: center;
+}
+
+.stat-number {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+.public-profile-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.public-profile-btn:hover {
+    background-color: #45a049;
+}
+
+.history-details {
+    padding: 30px;
+    width: 65%; /* Same as Profile details width */
+    position: relative;
+}
+
+.history-mini-cards {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.mini-card {
+    display: flex;
+    width: 42%;
+    background-color:#4caf4f52;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    align-items: center;
+}
+
+.mini-card-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.mini-card-content {
+    flex-grow: 1;
+}
+
+.mini-card-content h4 {
+    color: #777;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.mini-card-content p {
+    font-size: 12px;
+    color: #666;
+}
+
+.profile-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 100px;
+}
+
+.back-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #45a049;
+}

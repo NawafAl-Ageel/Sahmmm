@@ -2,8 +2,11 @@
   "name": "project1",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "http://NawafAl-Ageel.github.io/SAHM_Upload",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy" : "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "author": "",
   "license": "ISC",
@@ -15,7 +18,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
     "mongoose": "^8.7.1",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "path": "^0.12.7"
   },
   "keywords": [],
   "description": ""
