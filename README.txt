@@ -1,5 +1,5 @@
 front-end:
-
+pip install
 npm install
 npm install react-router-dom
 
