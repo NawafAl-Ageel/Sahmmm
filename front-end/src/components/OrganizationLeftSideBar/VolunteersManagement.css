@@ -1,0 +1,38 @@
+.volunteers-management {
+    padding: 20px;
+  }
+  
+  .opportunity-block {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .opportunity-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .volunteer-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .volunteer-item {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .volunteer-item:last-child {
+    border-bottom: none;
+  }
+  
+  .no-volunteers, .no-opportunities, .error-message {
+    color: #999;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  

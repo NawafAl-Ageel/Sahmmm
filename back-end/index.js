@@ -268,6 +268,25 @@ app.get('/volunteer/request-status/:opportunityId', verifyToken, async (req, res
   }
 });
 
+//volunteer retriver
+app.get('/organization/volunteers/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Fetch volunteers associated with the opportunity ID
+    const volunteers = await Volunteers.find({ opportunityId: id });
+
+    if (!volunteers || volunteers.length === 0) {
+      return res.status(404).json({ message: 'No volunteers found for this opportunity.' });
+    }
+
+    res.json(volunteers);
+  } catch (error) {
+    console.error('Error fetching volunteers:', error);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+});
+
 // Delete Organization Account
 app.delete('/deleteorganization', verifyToken, async (req, res) => {
   try {
