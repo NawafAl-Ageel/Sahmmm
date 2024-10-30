@@ -1,0 +1,173 @@
+* {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url('public/background4.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+#hjaj{
+    position: relative;
+    width: 100%;
+    max-width: 250px;
+  }
+
+/* Main container for homepage */
+.homepage-container {
+    padding: 20px;
+    text-align: right;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Intro section styling */
+/* Intro section styling */
+.intro-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: rgba(243, 243, 243, 0.9); /* Slight transparency */
+    border-radius: 10px;
+    width: 90%;
+}
+
+.intro-text {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.intro-text h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.intro-text p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.intro-logo-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro-logo-section img {
+    width: 80%;
+    max-width: 200px;
+    height: auto;
+    margin-left: 20px;
+}
+
+
+.start-button {
+    padding: 10px 30px;
+    background-color: #45a049;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.5s;
+}
+
+.start-button:hover {
+    background-color: #3b883f;
+}
+
+.intro-logo-section {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.intro-logo-section img {
+    width: 100%;
+    max-width: 400px;
+}
+
+.intro-logo-section p {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
+
+/* Card container */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.card {
+    flex: 1 1 calc(25% - 40px); /* Allows for 4 cards per row */
+    min-width: 280px;
+    max-width: 350px;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.card-content {
+    text-align: center;
+    padding: 15px;
+}
+
+.card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card p {
+    font-size: 16px;
+    color: #555;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure cards fill the screen on smaller devices */
+@media (max-width: 1024px) {
+    .card {
+        flex: 1 1 calc(50% - 20px); /* Two cards per row */
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        flex: 1 1 100%; /* Full-width cards on mobile */
+    }
+
+    .intro-section {
+        width: 100%;
+        padding: 15px;
+    }
+}

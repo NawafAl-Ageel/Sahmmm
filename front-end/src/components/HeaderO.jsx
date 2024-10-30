@@ -4,7 +4,7 @@ import SAHMLOGO from "./SAHMLOGO1.png";
 import "./Header.css"; // Ensure you have this CSS file
 import "./HeaderO.css"; // Create a new CSS file for organization-specific styles
 
-const Header = ({ name, handleLogout }) => {
+const Header = ({ name, handleLogout, onRequestsClick}) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   return (
@@ -43,7 +43,8 @@ const Header = ({ name, handleLogout }) => {
           {dropdownVisible && (
             <div className="dropdown-menu">
               <Link to="/organizationprofile" className="dropdown-item">الملف الشخصي</Link>
-              <button onClick={handleLogout} className="dropdown-item">تسجيل الخروج</button>
+              <button id="ReqButton"><a onClick={onRequestsClick}>طلبات المشاركة</a></button>
+              <button id="SignOutButton" onClick={handleLogout} className="dropdown-item">تسجيل الخروج</button>
             </div>
           )}
         </div>

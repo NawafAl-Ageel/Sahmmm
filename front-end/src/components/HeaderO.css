@@ -1,0 +1,82 @@
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .user-name-btn {
+    border: 2px ;
+    border-style: solid;
+    border-color:  #45a049;
+    background-color: #45a04975;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .dropdown-item {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+  }
+
+  #SignOutButton{
+    background-color: brown;
+    color: white;
+    border-bottom: none;
+  }
+
+  #SignOutButton:hover{
+    background-color: #7e0000;
+  }
+  
+  .dropdown-item {
+    background-color: rgb(255, 255, 255);
+    color: #333;
+    border-bottom: none;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #bbbbbb;
+  }
+  
+  a{
+    color: #333;
+  }
+
+  #ReqButton{
+    background-color:#ffffff;
+  }
+
+  #ReqButton:hover{
+    background-color: #bbbbbb;
+  }
+
+  #SignOutButton{
+
+  }
+
+  /* When the dropdown should be visible */
+.dropdown-menu.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}

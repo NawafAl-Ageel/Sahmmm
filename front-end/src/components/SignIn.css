@@ -1,0 +1,92 @@
+.signin-container {
+    width: 800px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin: 40px auto;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+  }
+  
+  .main-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+  }
+  
+  .signin-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .inputDispalyBlock {
+    margin: 8px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .inputDispalyBlock:focus {
+    border-color: #45a049;
+  }
+  
+  .radio-group {
+    font-size: large;
+    font-weight: 400;
+    color: #333;
+    display: flex;
+    gap: 100px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  
+  .radio-inline {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+  }
+  
+  .radio-group input[type="radio"] {
+    margin-left: 5px;
+  }
+  
+  button {
+    padding: 12px;
+    background-color: #45a049;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
+  button:hover {
+    background-color: #3b883f;
+    transition: 0.5s;
+  }
+  
+  .error-text {
+    color: red;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  
+  .AccountSwitch {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #45a049;
+    font-size: 14px;
+  }
+  
+  .AccountSwitch:hover {
+    text-decoration: underline;
+  }
+  
+  label{
+    color: #ffffff;
+  }

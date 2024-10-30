@@ -1,0 +1,161 @@
+/* Apply styles specifically to the signup container */
+.signup-page {
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+  }
+  
+  /* This container will wrap around the form only */
+  .signup-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .form-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .radio-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .radio-option {
+    margin: 0 20px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .radio-option input[type="radio"] {
+    margin-right: 8px;
+  }
+  
+  .radio-label {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .form-content {
+    margin-top: 20px;
+  }
+  
+  .account-switch {
+    display: block;
+    margin-top: 20px;
+    color: #45a049;
+    font-size: 16px;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .account-switch:hover {
+    color: #3b883f;
+  }
+  
+  /* Ensure that the header is not affected */
+  header {
+    width: 100%;
+    background-color: #333; /* or use the original background color */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  header .logo img {
+    width: 90px;
+    height: 70px;
+  }
+  
+  header .nav-links ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  header .nav-links ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  /* Add padding to prevent the header from shrinking */
+  header .nav-links ul li {
+    padding: 10px 0;
+  }
+  
+  /* Container for sign-up forms */
+.signup-form {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  /* Form title */
+  .form-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Input fields */
+  .input-field {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  /* Error messages */
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+  }
+  
+  /* Success message */
+  .success-message {
+    color: green;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  /* Submit button */
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #45a049;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .submit-button:hover {
+    background-color: #3b883f;
+    transition: 0.3s;
+  }
+  

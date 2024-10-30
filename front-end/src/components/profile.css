@@ -1,6 +1,10 @@
 /* Profile.css */
-.body {
-  background-image: url("/sahm-v2.1/front-end/public/sahem_background_4.jpg");
+body {
+  background-image: url('public/background4.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 .profile-container {
