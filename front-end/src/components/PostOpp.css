@@ -80,3 +80,23 @@
     margin-bottom: 20px;
   }
   
+/* Style for the category dropdown */
+#category {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  appearance: none; /* Hides default arrow for consistent styling */
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23333" d="M5.516 7.38a.7.7 0 0 1 1.023-.005l3.487 3.456 3.456-3.456a.7.7 0 1 1 .99.99l-3.957 3.957a.7.7 0 0 1-.99 0L5.51 8.364a.7.7 0 0 1 .006-.983Z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+#category:focus {
+  outline: none;
+  border-color: #3b883f; /* Change border color on focus */
+  background-color: #fff;
+}

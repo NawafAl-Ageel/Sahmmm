@@ -214,6 +214,50 @@ app.put('/organization/requests/:id', verifyToken, async (req, res) => {
   }
 });
 
+app.put('/organization/opportunities/increment/:id', verifyToken, async (req, res) => {
+  if (req.userRole !== 'organization') {
+    return res.status(403).json({ message: 'Access forbidden: not an organization' });
+  }
+
+  try {
+    const opportunity = await Opportunity.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { currentParticipants: 1 } }, // Increment currentParticipants by 1
+      { new: true }
+    );
+
+    if (!opportunity) {
+      return res.status(404).json({ message: 'Opportunity not found' });
+    }
+
+    res.status(200).json({ message: 'Participant count updated successfully', opportunity });
+  } catch (error) {
+    console.error('Error updating participant count:', error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+app.get('/opportunities', async (req, res) => {
+  const { category } = req.query;
+
+  try {
+    let query = {};
+
+    // Apply category filter if provided and not "all"
+    if (category && category !== 'all') {
+      query.category = category;
+    }
+
+    // Fetch opportunities with optional category filtering
+    const opportunities = await Opportunity.find(query);
+
+    res.json(opportunities);
+  } catch (error) {
+    console.error('Error fetching opportunities:', error);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+});
+
 // Organization Profile Route
 app.get('/organization-profile', verifyToken, async (req, res) => {
   if (req.userRole !== 'organization') {
@@ -331,7 +375,7 @@ app.post('/organization/postopportunity', upload.single('image'), verifyToken, a
     return res.status(403).json({ message: 'Access forbidden: not an organization' });
   }
 
-  const { title, date, location, participants, description, duration } = req.body;
+  const { title, date, location, participants, description, duration, category } = req.body; // Add category
   const image = req.file ? req.file.filename : null;
 
   try {
@@ -342,6 +386,7 @@ app.post('/organization/postopportunity', upload.single('image'), verifyToken, a
       location,
       participantsNeeded: participants,
       duration,
+      category, // Save category in the database
       image,
       organization: req.userId,
     });

@@ -27,9 +27,22 @@ const opportunitySchema = new mongoose.Schema({
     required: true,
     min: 1, // Ensures at least one participant is needed
   },
+  currentParticipants: {
+    type: Number,
+    default: 0, // Default to 0 if no participants yet
+    min: 0
+  },
   duration: {
     type: Number, // Duration in hours
     required: false,
+  },
+  category: {
+    type: String,
+    enum: [
+      'all', 'program', 'workshop', 'meetup', 'webinar', 'education', 
+      'recreational', 'sports', 'relief'
+    ], // Limit to specific categories
+    required: true,
   },
   
   createdAt: {

@@ -11,6 +11,7 @@ const PostOpp = ({ name, handleLogout }) => {
   const [participants, setParticipants] = useState('');
   const [description, setDescription] = useState('');
   const [duration, setDuration] = useState('');
+  const [category, setCategory] = useState(''); // Add this line to define category
 
   // Handle form submission
   const handleSubmit = async (event) => {
@@ -24,6 +25,7 @@ const PostOpp = ({ name, handleLogout }) => {
     formData.append('participants', participants);
     formData.append('description', description);
     formData.append('duration', duration);
+    formData.append('category', category); // Include category in form data
 
     try {
       const response = await axios.post('http://localhost:5000/organization/postopportunity', formData, {
@@ -56,6 +58,26 @@ const PostOpp = ({ name, handleLogout }) => {
               onChange={(e) => setTitle(e.target.value)}
               required
             />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="category">التصنيف</label>
+            <select
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+            >
+              <option value="all">الكل</option>
+              <option value="program">بيئية</option>
+              <option value="workshop">صحية</option>
+              <option value="meetup">تنظيمية</option>
+              <option value="webinar">اجتماعية</option>
+              <option value="education">تعليمية</option>
+              <option value="recreational">ترفيهية</option>
+              <option value="sports">رياضية</option>
+              <option value="relief">إغاثية</option>
+            </select>
           </div>
 
           <div className="form-group">

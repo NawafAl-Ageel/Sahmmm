@@ -35,9 +35,22 @@ const OrganizationRequests = ({ user }) => {
           },
         }
       );
-
-      console.log('Response from server:', response.data); // Add this for debugging
-
+  
+      console.log('Response from server:', response.data);
+  
+      // If the request is accepted, increment the currentParticipants for the related opportunity
+      if (status === 'مقبول') {
+        await axios.put(
+          `http://localhost:5000/organization/opportunities/increment/${response.data.opportunityId}`, // Ensure this endpoint exists in your backend
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+            },
+          }
+        );
+      }
+  
       // Update the local state to reflect the change
       setRequests((prevRequests) =>
         prevRequests.map((req) =>
@@ -45,9 +58,10 @@ const OrganizationRequests = ({ user }) => {
         )
       );
     } catch (error) {
-      console.error('Error updating request status:', error.response ? error.response.data : error.message); // Add detailed error message
+      console.error('Error updating request status:', error.response ? error.response.data : error.message);
     }
   };
+  
 
   // Function to handle showing the volunteer's profile
   const handleViewProfile = (volunteer) => {
