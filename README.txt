@@ -1,5 +1,5 @@
 front-end:
-
+pip install
 npm install
 npm install react-router-dom
 
@@ -17,3 +17,8 @@ npm run dev
 
 back-end:
 node index
+
+
+Github: 
+git pull origin main
+git push origin main
