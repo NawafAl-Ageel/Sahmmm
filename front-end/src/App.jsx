@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import SingUp from './components/SingUp';
-import SingIn from './components/SingIn';
+import SingUp from './components/SignUp';
+import SignIn from './components/SignIn';
 import OrganizationProfile from './components/OrganizationProfile';
 import VolunteerProfile from './components/VolunteerProfile';
 import OrganizationHomepage from './components/OrganizationHomepage';
@@ -59,8 +59,8 @@ const App = () => {
           <>
             <Route path="/home" element={<Home />} />
             <Route path="/singup" element={<SingUp />} />
-            <Route path="/singin" 
-              element={<SingIn 
+            <Route path="/signin" 
+              element={<SignIn 
                 setVolunteerToken={setVolunteerToken} 
                 setOrganizationToken={setOrganizationToken} 
                 setUser={setUser} 

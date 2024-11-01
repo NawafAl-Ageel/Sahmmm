@@ -24,11 +24,11 @@ const OrganizationRequests = ({ user }) => {
     fetchRequests();
   }, []);
 
-  const handleRequestUpdate = async (requestId, status) => {
+  const handleRequestUpdate = async (requestId, status,volunteerName,VolunteerEmail,oppTitle) => {
     try {
       const response = await axios.put(
         `http://localhost:5000/organization/requests/${requestId}`,
-        { status },
+        { status,volunteerName,VolunteerEmail,oppTitle },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
@@ -102,13 +102,13 @@ const OrganizationRequests = ({ user }) => {
                 <>
                   <button
                     className="accept-btn"
-                    onClick={() => handleRequestUpdate(req._id, 'مقبول')}
+                    onClick={() => handleRequestUpdate(req._id, 'مقبول',req.volunteer.name,req.volunteer.email,req.opportunity.title)}
                   >
-                    قبول
+                    مقبول
                   </button>
                   <button
                     className="reject-btn"
-                    onClick={() => handleRequestUpdate(req._id, 'مرفوض')}
+                    onClick={() => handleRequestUpdate(req._id, 'مرفوض',req.volunteer.name,req.volunteer.email,req.opportunity.title)}
                   >
                     رفض
                   </button>

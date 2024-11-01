@@ -5,7 +5,7 @@
   "homepage": "http://NawafAl-Ageel.github.io/SAHM_Upload",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy" : "npm run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "author": "",
@@ -14,12 +14,17 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "google-auth-library": "^9.14.2",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
     "mongoose": "^8.7.1",
     "multer": "^1.4.5-lts.1",
-    "path": "^0.12.7"
+    "nodemailer": "^6.9.16",
+    "open": "^10.1.0",
+    "path": "^0.12.7",
+    "server-destroy": "^1.0.1"
   },
   "keywords": [],
   "description": ""

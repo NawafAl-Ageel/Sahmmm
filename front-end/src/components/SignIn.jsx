@@ -27,7 +27,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
     e.preventDefault();
     setIsLoading(true); // Start loading animation
     try {
-      const response = await axios.post('http://localhost:5000/singin-volunteer', {
+      const response = await axios.post('http://localhost:5000/signin-volunteer', {
         ...volunteer,
         role: 'volunteer',
       });
@@ -50,7 +50,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
     e.preventDefault();
     setIsLoading(true); // Start loading animation
     try {
-      const response = await axios.post('http://localhost:5000/singin-organization', {
+      const response = await axios.post('http://localhost:5000/signin-organization', {
         ...organization,
         role: 'organization',
       });

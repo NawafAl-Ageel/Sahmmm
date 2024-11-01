@@ -49,7 +49,7 @@ const SignUp = () => {
             {selectedComponent === "volunteer" ? <SingUpV /> : <SingUpO />}
           </div>
 
-          <Link className="account-switch" to="/singin">لديك حساب ؟</Link>
+          <Link className="account-switch" to="/signin">لديك حساب ؟</Link>
         </div>
       </div>
     </div>

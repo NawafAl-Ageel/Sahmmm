@@ -1,4 +1,5 @@
 // New
+require('dotenv').config();
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -11,8 +12,40 @@ const multer = require('multer');
 const path = require('path');
 const Opportunity = require('./models/Opportunity');
 const app = express();
-const PORT = 5000;
-const JWT_SECRET = 'your_secret_key'; // Use environment variables for production
+const PORT = process.env.PORT;
+const nodemailer = require('nodemailer');
+const {sendWelcomeEmail,sendAcceptEmail,sendRejectEmail} = require('./mail/mailRoute');
+const JWT_SECRET = process.env.JWT_SECRET; // Use environment variables for production
+
+// this is for emails 
+// Email Configuration
+const createTransporter = () => {
+  return nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    },
+    debug: process.env.NODE_ENV !== 'production',
+    logger: process.env.NODE_ENV !== 'production'
+  });
+};
+
+let transporter;
+// Initialize the email service
+(async function() {
+  try {
+    transporter = createTransporter();
+    await transporter.verify();
+    console.log('SMTP connection successful');
+  } catch (error) {
+    console.error('SMTP connection error:', error);
+    process.exit(1);
+  }
+})();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -86,15 +119,28 @@ app.post('/volunteer/request/:opportunityId', verifyToken, async (req, res) => {
 });
 
 // Sign Up for Volunteer
-app.post('/singup-volunteer', async (req, res) => {
+app.post('/signup-volunteer', async (req, res) => {
   const { name, email, birthday, city, password, gender } = req.body;
 
   try {
+    // Input validation
+    if (!name || !email || !password || !city) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    // Check if email is valid
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    // Check if volunteer exists
     const volunteerExists = await Volunteer.findOne({ email });
     if (volunteerExists) {
       return res.status(400).json({ message: 'Volunteer already exists' });
     }
 
+    // Hash password and create volunteer
     const hashedPassword = await bcrypt.hash(password, 10);
     const newVolunteer = new Volunteer({
       name,
@@ -107,9 +153,18 @@ app.post('/singup-volunteer', async (req, res) => {
     });
 
     await newVolunteer.save();
+
+    // Send confirmation email using existing endpoint
+    await sendWelcomeEmail(transporter,email,name);
+
     res.status(200).json({ message: 'Volunteer signed up successfully!' });
+
   } catch (error) {
-    res.status(500).json({ message: 'Error signing up volunteer', error });
+    console.error('Signup error:', error);
+    res.status(500).json({ 
+      message: 'Error signing up volunteer', 
+      error: error.message 
+    });
   }
 });
 
@@ -133,6 +188,9 @@ app.post('/singup-organization', async (req, res) => {
     });
 
     await newOrganization.save();
+    // Send confirmation email using existing endpoint
+    await sendWelcomeEmail(transporter,email,name);
+
     res.status(200).json({ message: 'Organization signed up successfully!' });
   } catch (error) {
     res.status(500).json({ message: 'Error signing up organization', error });
@@ -140,7 +198,7 @@ app.post('/singup-organization', async (req, res) => {
 });
 
 // Sign In for Volunteer
-app.post('/singin-volunteer', async (req, res) => {
+app.post('/signin-volunteer', async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -162,7 +220,7 @@ app.post('/singin-volunteer', async (req, res) => {
 });
 
 // Sign In for Organization
-app.post('/singin-organization', async (req, res) => {
+app.post('/signin-organization', async (req, res) => {
   const { email, password, role } = req.body;
 
   try {
@@ -190,7 +248,7 @@ app.post('/singin-organization', async (req, res) => {
 // Accept/Reject participation request
 app.put('/organization/requests/:id', verifyToken, async (req, res) => {
   const requestId = req.params.id;
-  const { status } = req.body;
+  const { status,volunteerName,VolunteerEmail,oppTitle } = req.body;
 
   if (req.userRole !== 'organization') {
     return res.status(403).json({ message: 'Access forbidden: not an organization' });
@@ -203,6 +261,8 @@ app.put('/organization/requests/:id', verifyToken, async (req, res) => {
       { new: true }
     );
 
+    if (status == "مقبول") sendAcceptEmail(transporter,volunteerName,VolunteerEmail,oppTitle);
+    else if (status == "مرفوض") sendRejectEmail(transporter,volunteerName,VolunteerEmail,oppTitle)
     if (!updatedRequest) {
       return res.status(404).json({ message: 'Request not found' });
     }
@@ -563,7 +623,7 @@ app.get('/opportunities', async (req, res) => {
     res.status(500).json({ message: 'Error fetching opportunities', error: error.message });
   }
 });
-// Start Server
-app.listen(PORT, () => {
+//Start Server
+app.listen(PORT, () => { 
   console.log(`Server running on port ${PORT}`);
 });

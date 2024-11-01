@@ -72,7 +72,7 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
           </button>
         ) : (
           <button className="participation-button pending" disabled>
-            {requestStatus === 'pending' ? 'معلّق' : requestStatus === 'accepted' ? 'مقبول' : 'مرفوض'}
+            {requestStatus === 'pending' ? 'معلّق' : requestStatus === 'مقبول' ? 'مقبول' : 'مرفوض'}
           </button>
         )}
 

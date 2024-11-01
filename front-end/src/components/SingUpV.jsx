@@ -98,7 +98,7 @@ const SignUpV = () => {
 
     // If no errors, proceed with sign up
     try {
-      const response = await axios.post('http://localhost:5000/singup-volunteer', {
+      const response = await axios.post('http://localhost:5000/signup-volunteer', {
         name,
         email,
         birthday,

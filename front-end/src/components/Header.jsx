@@ -21,7 +21,7 @@ const Header = () => {
       <div className="header-right">
         <button className="lang-switch">En</button>
         <button className="login-btn">
-          <Link to="/singin">تسجيل الدخول</Link>
+          <Link to="/signin">تسجيل الدخول</Link>
         </button>
       </div>
     </header>
