@@ -291,25 +291,24 @@ const handleSaveProfile = async () => {
           </div>
           view
           <div className="profile-buttons">
-            {isEditing ? (
-              <button onClick={handleSaveProfile} className="edit-button">
-                حفظ البيانات
-              </button>
-            ) : (
-              <button onClick={handleEditProfile} className="edit-button">
-                تعديل البيانات
-              </button>
-            )}
-            <button onClick={() => navigate('/history')} className="history-button">
-              مشاهدة المشاركات السابقة
-            </button>
+  {isEditing ? (
+    <button onClick={handleSaveProfile} className=" standard-button">
+      حفظ البيانات
+    </button>
+  ) : (
+    <button onClick={handleEditProfile} className=" standard-button">
+      تعديل البيانات
+    </button>
+  )}
+  <button onClick={() => navigate('/history')} className="history-button standard-button">
+    مشاهدة المشاركات السابقة
+  </button>
+  <button onClick={deleteAccount} id="Delete" className="history-button standard-button">
+    حذف الحساب
+  </button>
 
-            <button onClick={deleteAccount} id='Delete' className="history-button">حذف الحساب </button>
+</div>
 
-            <button onClick={() => navigate('/home')} className="back-button">
-              العودة إلى الرئيسية
-            </button>
-          </div>
         </div>
       </div>
     </div>

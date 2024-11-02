@@ -1,125 +1,132 @@
 /* Container for each request card */
 .request-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-  }
-  
-  /* Profile image */
-  .request-card img {
-    width: 54px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-  }
-  
-  /* Left section containing the image and name */
-  .request-left {
-    display: flex;
-    align-items: center;
-  }
-  
-  /* Name and "View Profile" */
-  .request-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .request-info h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0;
-    color: #333;
-  }
-  
-  .request-info .view-profile {
-    background-color: #4CAF50;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 12px;
-    cursor: pointer;
-    margin-top: 5px;
-    transition: background-color 0.2s ease;
-  }
-  
-  .request-info .view-profile:hover {
-    background-color: #45a049;
-  }
-  
-  /* Right section containing Accept and Reject buttons */
-  .request-right {
-    display: flex;
-    align-items: center;
-  }
-  
-  .request-right button {
-    padding: 8px 15px;
-    border-radius: 5px;
-    border: none;
-    color: white;
-    cursor: pointer;
-    margin-left: 10px;
-    font-size: 14px;
-  }
-  
-  /* Accept button */
-  .accept-btn {
-    background-color: #28a745;
-    transition: background-color 0.2s ease;
-  }
-  
-  .accept-btn:hover {
-    background-color: #218838;
-  }
-  
-  /* Reject button */
-  .reject-btn {
-    background-color: #dc3545;
-    transition: background-color 0.2s ease;
-  }
-  
-  .reject-btn:hover {
-    background-color: #c82333;
-  }
-  
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal-content {
-    height: 900px;
-    background-color: rgb(231, 231, 231);
-    padding: 20px;
-    border-radius: 8px;
-    width: 600px; /* Adjust width as needed */
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-  
-  .close-button {
-    background: red;
-    color: white;
-    border: none;
-    float: right;
-    cursor: pointer;
-  }
-  
-  #Req-title{
-    font-size: small;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e4e7da;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+/* Profile image */
+.request-card img {
+  width: 54px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+/* Left section containing the image and name */
+.request-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Name and "View Profile" */
+.request-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.request-info h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.request-info .view-profile {
+  background-color: #4CAF50;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.request-info .view-profile:hover {
+  background-color: #45a049;
+}
+
+/* Right section containing Accept and Reject buttons */
+.request-right {
+  display: flex;
+  align-items: center;
+}
+
+.request-right button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+/* Accept button */
+.accept-btn {
+  background-color: #28a745;
+  transition: background-color 0.2s ease;
+}
+
+.accept-btn:hover {
+  background-color: #218838;
+}
+
+/* Reject button */
+.reject-btn {
+  background-color: #dc3545;
+  transition: background-color 0.2s ease;
+}
+
+.reject-btn:hover {
+  background-color: #c82333;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  height: 900px;
+  background-color: #e7e7e7;
+  padding: 20px;
+  border-radius: 8px;
+  width: 600px; /* Adjust width as needed */
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.close-button {
+  background: red;
+  color: white;
+  border: none;
+  float: right;
+  cursor: pointer;
+}
+
+#Req-title{
+  font-size: small;
+}
+#join-request {
+  direction: rtl;
+  text-align: right; /* Aligns text to the right */
+}
+.requests-container{
+  background-color: rgb(255, 255, 255);
+}

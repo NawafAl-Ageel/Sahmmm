@@ -122,24 +122,45 @@ body {
   margin-top: 100px;
 }
 
-.edit-button, .back-button, .history-button {
+.standard-button {
+  padding-top: 20px;
+  width: 500px; /* Set a fixed width for all buttons */
+  padding: 10px 0; /* Ensures consistent height by using padding only on top and bottom */
+  font-size: 16px;
   font-weight: 200;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 15px;
+  text-align: center;
   border-radius: 5px;
   cursor: pointer;
+  border: none;
 }
 
-.edit-button:hover, .back-button:hover, .history-button:hover {
-  background-color: #45a049;
+.edit-button, .back-button {
+  background-color: #4CAF50;
+  color: white;
 }
 
 .history-button {
-  background-color: #000; /* Adjusted the "View History" button to match the black color */
+  background-color: #000; /* Black background for "View History" button */
   color: white;
 }
+
+#Delete {
+  background-color: #B22222; /* Red background for "Delete Account" */
+  color: white;
+}
+
+.edit-button:hover, .back-button:hover {
+  background-color: #45a049;
+}
+
+.history-button:hover {
+  background-color: #333; /* Darker shade for hover on "View History" button */
+}
+
+#Delete:hover {
+  background-color: #8B0000; /* Darker shade for hover on "Delete Account" */
+}
+
 
 .history-details {
   padding: 30px;

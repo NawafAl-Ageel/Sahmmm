@@ -1,111 +1,173 @@
 /* OpportunityDetails.css */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal-content {
-    color: #333;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 700px;
-    width: 900px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-    position: relative;
-    height: 740px;
-  }
-  
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  .opportunity-image {
-    width: 100%;
-    height: auto;
-    margin-bottom: 10px;
-  }
-  
-  #details-info {
-    text-align: right;
-    font-size: 16px;
-  }
-  
-  #description {
-    text-align: left;
-    border: 0.5px rgba(109, 109, 109, 0.527) solid;
-    padding: 5px 50px 50px 10px;
-    float: left;
-    vertical-align: top;
-    width: 375px;
-    height: 140px;
-    border-radius: 10px; /* Adds rounded corners */
-  }
-  
-  .participation-button {
-    background-color: #28a745; /* Green background */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
-  }
-  
-  .participation-button:hover {
-    background-color: #218838;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
-  }
-  
-  .participation-button.pending {
-    background-color: #6c757d; /* Grey background for pending state */
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
-  }
-  
-  .participation-button:disabled {
-    cursor: not-allowed;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
-  }
-  
-  .mdry{
-    display: flex;
-    flex-direction: column;
-  }
 
-/* Confirmation Modal Styles */
+/* Modal Content */
+.modal-content {
+  color: #333;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 1200px;
+  width: 1200px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  height: 1200px;
+}
+
+/* Image Section */
+.opportunity-imagee {
+  width: 700px;
+  height: 350px;
+  display: block;
+  margin: 0 auto;
+  padding-top: 30px;
+  border-radius: 8px;
+  padding-bottom: 50px;
+}
+
+/* Main Container */
+.custom-table-description-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Custom Table */
+.custom-table {
+  margin-left: 40px;
+  background-color: #fff;
+  padding: 10px; /* Reduced padding for a more compact layout */
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  width: 30%; /* Keep table at full width of its container */
+  font-family: "IBM Plex Sans Arabic", sans-serif;
+  color: #333;
+  font-size: 0.85rem; /* Smaller font size for compactness */
+}
+/* Description Container */
+#description-container {
+  margin-left: auto;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 8px;
+  width: 40%;
+}
+#description-goals-container {
+  margin-left: auto;
+  margin-right: 55px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Individual Section Styles */
+.description-section,
+.goals-section {
+  width: 100%; /* Ensures each section takes the full width */
+}
+
+/* Section Divider - Horizontal Line */
+.section-divider {
+  border: none;
+  border-top: 1px solid #ddd; /* Light grey color for subtlety */
+  margin: 15px 0; /* Space above and below the line */
+}
+/* Description Title */
+.description-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: right;
+}
+/* Description Text */
+#description {
+  color: #333;
+  padding: 10px 0;
+  text-align: right;
+  font-size: 1rem;
+}
+
+/* Table Section */
+.table-section {
+  margin-bottom: 10px; /* Reduced space between sections */
+}
+
+/* Section Title */
+.section-title {
+  font-size: 0.9rem; /* Smaller font size */
+  font-weight: bold;
+  color: #666;
+  text-align: right;
+  margin-bottom: 5px; /* Tighter space below titles */
+}
+
+
+/* Table Row */
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 6px; /* Reduced padding within rows */
+}
+
+/* Table Cell */
+.table-cell {
+  width: 45%; /* Keeps cells compact and side-by-side */
+  text-align: center;
+  font-size: 0.85rem; /* Slightly smaller font */
+}
+
+.table-cell p {
+  margin: 0;
+  font-size: 0.8rem; /* Smaller font for text inside cells */
+  color: #666;
+}
+
+.cell-value {
+  font-weight: bold;
+  color: #333;
+  font-size: 0.9rem; /* Adjusted for better readability */
+}
+
+
+/* Table Footer */
+.table-footer {
+  margin-right: 40px;
+   margin-left: 40px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+}
+
+/* Participation Button */
+.participation-button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+.participation-button:hover {
+  background-color: #218838;
+}
+
+.participation-button.pending {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Confirmation Modal */
 .confirm-modal {
   position: fixed;
   top: 0;
@@ -142,38 +204,41 @@
 }
 
 .confirm-button {
-  background-color: #45a049; /* Green */
+  background-color: #45a049;
   color: white;
 }
 
 .cancel-button {
-  background-color: #ccc; /* Grey */
+  background-color: #ccc;
 }
 
 .confirm-button:hover {
-  background-color: #3b883f; /* Darker Green */
+  background-color: #3b883f;
 }
 
 .cancel-button:hover {
-  background-color: #bbb; /* Darker Grey */
+  background-color: #bbb;
 }
 
-/* Feedback Message Styles */
+/* Feedback Message */
 .feedback-message {
   position: fixed;
-  top: 80px; /* Adjusted to prevent overlap with header */
+  top: 80px;
   right: 20px;
   padding: 10px 20px;
-  background-color: #45a049; /* Green */
+  background-color: #45a049;
   color: white;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   font-size: 16px;
-  z-index: 1100; /* Ensure it appears above other elements */
-  animation: slideIn 0.5s, fadeOut 2.5s 0.5s; /* Updated animation timing */
+  z-index: 1100;
+  animation: slideIn 0.5s, fadeOut 2.5s 0.5s;
 }
 
-/* Animations for feedback */
+.close-button{
+  margin-left: 15px;
+}
+/* Animations */
 @keyframes slideIn {
   from {
     opacity: 0;

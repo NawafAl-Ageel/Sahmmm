@@ -1,4 +1,3 @@
-// VolunteerProfileModal.jsx
 import React from 'react';
 import './VolunteerProfileModal.css'; // Add your CSS styles for the modal
 
@@ -15,12 +14,14 @@ const VolunteerProfileModal = ({ volunteer, onClose }) => {
           alt={volunteer.name}
           className="volunteer-profile-picture"
         />
-        <p><strong>الاسم:</strong> {volunteer.name}</p>
-        <p><strong>البريدالإلكتروني:</strong> {volunteer.email}</p>
-        <p><strong>المدينة:</strong> {volunteer.city}</p>
-        <p><strong>تاريخ الميلاد:</strong> {new Date(volunteer.birthday).toLocaleDateString()}</p>
-        <p><strong>مساهمات سابقة:</strong> {volunteer.opportunitiesParticipated}</p>
-        <p><strong>مساهمات حالية:</strong> {volunteer.currentOpportunities}</p>
+
+        {/* Wrap each piece of info in a box */}
+        <div className="info-box"><p><strong>الاسم:</strong> {volunteer.name}</p></div>
+        <div className="info-box"><p><strong>البريد الإلكتروني:</strong> {volunteer.email}</p></div>
+        <div className="info-box"><p><strong>المدينة:</strong> {volunteer.city}</p></div>
+        <div className="info-box"><p><strong>تاريخ الميلاد:</strong> {new Date(volunteer.birthday).toLocaleDateString()}</p></div>
+        <div className="info-box"><p><strong>مساهمات سابقة:</strong> {volunteer.opportunitiesParticipated}</p></div>
+        <div className="info-box"><p><strong>مساهمات حالية:</strong> {volunteer.currentOpportunities}</p></div>
       </div>
     </div>
   );

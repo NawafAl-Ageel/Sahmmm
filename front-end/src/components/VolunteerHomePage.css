@@ -187,20 +187,33 @@
   background-color: #e0e0e0;
 }
 
-.search-filter-container {
-  margin-top: -5px;
-  display: flex;
-  gap: 15px;
-  align-items: flex-start; /* Align items at the top */
-}
 
 .date-filter-container {
   display: flex;
   flex-direction: column;
 }
 
+.search-filter-container {
+  display: flex;
+  gap: 15px; /* Adjust gap as needed */
+  align-items: flex-end; /* Align all inputs/selects to the bottom */
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
 .filter-label {
   color: #333;
   font-size: 14px;
   margin-bottom: 5px;
+  display: block; /* Ensures label is above the input/select */
+}
+
+.date-filter-container,
+.category-filter-container,
+.location-filter-container {
+  display: flex;
+  margin-right: 15px;
+  flex-direction: column; /* Stack label above the input/select */
+  min-width: 150px; /* Ensures consistent width for each filter */
+  flex: 1; /* Ensures even spacing across available width */
 }

@@ -12,30 +12,50 @@
 }
 
 .modal-content1 {
-  background-color: white;
+  background-color: #e4e7da;
   padding: 20px;
   border-radius: 8px;
   max-width: 500px;
   width: 100%;
+  height: auto;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
-  height: 290px;
+  direction: rtl; /* Sets text direction from right to left */
 }
 
 .close-button {
+  margin-right: auto;
   position: absolute;
   top: 10px;
-  right: 10px;
+  left: 10px; /* Keeps button on the left */
   background-color: red;
   color: white;
   border: none;
   padding: 5px 10px;
+  width: 30px; /* Ensures button fits content */
+  display: inline-block; /* Prevents stretching */
   cursor: pointer;
 }
+.info-box {
+  background-color: #fff; /* Brown color for the background */
+  border: 1px solid #000000; /* Darker brown border color */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px; /* Rounded corners for each box */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for a raised effect */
+  text-align: right; /* Align text to the right for RTL layout */
+  color: #3a8133; /* Dark brown color for text to maintain readability */
+}
+
+.modal-content1 p {
+  margin: 0; /* Remove default paragraph margin for consistent styling */
+}
+
 
 .volunteer-profile-picture {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  margin-bottom: 10px;
+  margin: 0 auto 10px; /* Centers the image horizontally and adds bottom margin */
+  display: block; /* Ensures it centers with margin auto */
 }
