@@ -16,6 +16,15 @@ const PORT = process.env.PORT;
 const nodemailer = require('nodemailer');
 const {sendWelcomeEmail,sendAcceptEmail,sendRejectEmail} = require('./mail/mailRoute');
 const JWT_SECRET = process.env.JWT_SECRET; // Use environment variables for production
+const routes = require('./Routes'); // Import Routes.js
+
+app.use(
+  cors({
+    origin: ['http://localhost:5173', 'http://localhost:5174'], // Allow multiple frontend origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
+    credentials: true, // Allow credentials
+  })
+);
 
 // this is for emails 
 // Email Configuration
@@ -49,17 +58,62 @@ let transporter;
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    const uploadPath = process.env.UPLOAD_PATH || 'uploads/';
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname);
   },
 });
 
+
+const router = express.Router();
+app.use(router); // Register the router with the app
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/api', routes);
+
 const upload = multer({ storage });
 
-// Middleware
-app.use(cors());
+router.post('/upload', upload.single('file'), async (req, res) => {
+  try {
+    console.log(`Received file: ${req.file.originalname}`);
+    const { opportunityId } = req.body;
+    const opportunity = await Opportunity.findById(opportunityId);
+
+    if (!opportunity) {
+      console.log(`Opportunity ID ${opportunityId} not found.`);
+      return res.status(404).json({ message: 'Opportunity not found' });
+    }
+
+    const newFile = {
+      fileName: req.file.originalname,
+      filePath: req.file.filename,
+    };
+
+    opportunity.files.push(newFile);
+    await opportunity.save();
+
+    console.log(`File successfully uploaded for Opportunity ID: ${opportunityId}`);
+    res.status(200).json(newFile);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    res.status(500).json({ message: 'Failed to upload file', error });
+  }
+});
+
+router.get('/download/:fileName', (req, res) => {
+  const filePath = path.join(__dirname, 'uploads', req.params.fileName);
+  res.download(filePath, (err) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error downloading file' });
+    }
+  });
+});
+
+
 app.use(bodyParser.json());
 app.use('/uploads', express.static('uploads'));
 
@@ -318,6 +372,17 @@ app.get('/opportunities', async (req, res) => {
   }
 });
 
+app.get("/api/opportunities", async (req, res) => {
+  try {
+    const opportunities = await Opportunity.find();
+    res.json(opportunities);
+  } catch (error) {
+    console.error("Error fetching opportunities:", error);
+    res.status(500).json({ message: "Failed to fetch opportunities." });
+  }
+});
+
+
 // Organization Profile Route
 app.get('/organization-profile', verifyToken, async (req, res) => {
   if (req.userRole !== 'organization') {
@@ -378,7 +443,7 @@ app.get('/organization/volunteers/:id', async (req, res) => {
 
   try {
     // Fetch volunteers associated with the opportunity ID
-    const volunteers = await Volunteers.find({ opportunityId: id });
+    const volunteers = await Volunteer.find({ opportunityId: id });
 
     if (!volunteers || volunteers.length === 0) {
       return res.status(404).json({ message: 'No volunteers found for this opportunity.' });

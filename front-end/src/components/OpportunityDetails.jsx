@@ -3,15 +3,16 @@ import axios from 'axios';
 import "./OpportunityDetails.css";
 
 const OpportunityDetails = ({ opportunity, onClose }) => {
-  const [requestStatus, setRequestStatus] = useState('idle'); 
-  const [showConfirmModal, setShowConfirmModal] = useState(false); 
+  const [requestStatus, setRequestStatus] = useState('idle');
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
 
   useEffect(() => {
     const fetchRequestStatus = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/volunteer/request-status/${opportunity._id}`, {
+          `http://localhost:5000/volunteer/request-status/${opportunity._id}`,
+          {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('authToken')}`,
             },
@@ -27,10 +28,12 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
   }, [opportunity._id]);
 
   const handleRequestParticipation = async () => {
-    setShowConfirmModal(false); 
+    setShowConfirmModal(false);
     try {
       await axios.post(
-        `http://localhost:5000/volunteer/request/${opportunity._id}`, {}, {
+        `http://localhost:5000/volunteer/request/${opportunity._id}`,
+        {},
+        {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`,
           },
@@ -42,6 +45,10 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
     } catch (error) {
       console.error('Error sending participation request:', error);
     }
+  };
+
+  const handleDownload = (filePath) => {
+    window.open(`http://localhost:5000/${filePath}`, '_blank');
   };
 
   return (
@@ -136,11 +143,25 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
             </div>
             <div className="goals-section">
               <p className="description-title"><strong>: الأهداف</strong></p>
-             
-              
             </div>
           </div>
         </div>
+
+        {/* Download Button Section */}
+        {opportunity.files && opportunity.files.length > 0 && (
+          <div className="download-section">
+            <h3>ملفات ذات صلة</h3>
+            {opportunity.files.map((file, index) => (
+              <button
+                key={index}
+                className="download-button"
+                onClick={() => handleDownload(file.filePath)}
+              >
+                تحميل {file.fileName}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

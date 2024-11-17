@@ -12,6 +12,7 @@ import OrganizationRequests from './components/OrganizationRequests'; // Import 
 import Home from "./components/Home";
 import History from './components/History';
 import "./components/style/ProjectStyle.css";
+import FAQ from './components/FAQ';
 
 
 const App = () => {
@@ -58,6 +59,7 @@ const App = () => {
         {!volunteerToken && !organizationToken ? (
           <>
             <Route path="/home" element={<Home />} />
+            <Route path="/faq" element={<FAQ />} /> {/* Add FAQ route here */}
             <Route path="/singup" element={<SingUp />} />
             <Route path="/signin" 
               element={<SignIn 

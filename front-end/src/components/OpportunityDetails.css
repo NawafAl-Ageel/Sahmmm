@@ -235,6 +235,25 @@
   animation: slideIn 0.5s, fadeOut 2.5s 0.5s;
 }
 
+.download-section {
+  margin-top: 20px;
+}
+
+.download-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.download-button:hover {
+  background-color: #0056b3;
+}
+
+
 .close-button{
   margin-left: 15px;
 }
@@ -258,3 +277,4 @@
     opacity: 0;
   }
 }
+

@@ -30,7 +30,7 @@ const opportunitySchema = new mongoose.Schema({
   currentParticipants: {
     type: Number,
     default: 0, // Default to 0 if no participants yet
-    min: 0
+    min: 0,
   },
   duration: {
     type: Number, // Duration in hours
@@ -40,11 +40,10 @@ const opportunitySchema = new mongoose.Schema({
     type: String,
     enum: [
       'all', 'program', 'workshop', 'meetup', 'webinar', 'education', 
-      'recreational', 'sports', 'relief'
+      'recreational', 'sports', 'relief',
     ], // Limit to specific categories
     required: true,
   },
-  
   createdAt: {
     type: Date,
     default: Date.now, // Automatically set the creation date
@@ -54,10 +53,15 @@ const opportunitySchema = new mongoose.Schema({
     ref: 'Organization', // Reference to the Organization schema
     required: true,
   },
+  files: [
+    {
+      fileName: { type: String, required: true }, // Original file name
+      filePath: { type: String, required: true }, // Path to the file on the server
+    },
+  ],
 });
 
 // Create and export the Opportunity model
 const Opportunity = mongoose.model('Opportunity', opportunitySchema);
 
 module.exports = Opportunity;
-

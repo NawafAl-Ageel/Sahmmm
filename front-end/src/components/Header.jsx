@@ -13,7 +13,7 @@ const Header = () => {
       </div>
       <div className="header-center">
         <ul className="nav-links">
-          <li className="nav-item"><a href="#academies">أسئلة واستفسارات</a></li>
+          <li className="nav-item"><Link to="/faq">أسئلة واستفسارات</Link></li> {/* Link to FAQ page */}
           <li className="nav-item"><a href="#about">عن ساهم</a></li>
           <li className="nav-item"><a href="#home">الرئيسية</a></li>
         </ul>

@@ -1,0 +1,101 @@
+/* Container Styling */
+.faq-container {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+  }
+  
+  /* Title Styling */
+  .faq-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Category Title */
+  .faq-category-title {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  /* Question Styling */
+  .faq-question {
+    background: #fff;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .faq-question:hover {
+    background: #f1f1f1;
+    transform: scale(1.02);
+  }
+  
+  .faq-question.active {
+    background: #45a0495c;;
+  }
+  
+  /* Arrow Icon */
+  .arrow {
+    font-size: 16px;
+    color: #666;
+  }
+  
+  /* Answer Styling */
+  .faq-answer {
+    overflow: hidden;
+    max-height: 0;
+    padding: 15px 20px; /* Adjust padding for better readability */
+    font-size: 14px;
+    color: #444;
+    background: #fafafa;
+    border-left: 2px solid #ddd;
+    border-right: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+
+  .faq-question {
+    background-color: #f9f9f9; /* Matches the answer's background */
+    border: none;
+    margin: 0; /* Remove any external margins */
+    padding: 15px 20px; /* Consistent padding */
+    border-radius: 5px 5px 0 0; /* Rounded corners for the top */
+  }
+  
+  .faq-answer {
+    background-color: #f9f9f9; /* Same as question background */
+    margin: 0; /* Remove extra spacing */
+    padding: 15px 20px; /* Adjust for better readability */
+    border-radius: 0 0 5px 5px; /* Rounded corners for the bottom */
+    border-top: 1px solid #ddd; /* Subtle border between question and answer */
+  }
+  
+  .faq-item {
+    margin-bottom: 10px; /* Space between questions */
+    border-radius: 5px; /* Round the full question-answer box */
+    overflow: hidden; /* Prevent gaps or overlapping */
+  }
+  
+
+
+  
+  .faq-show {
+    max-height: 200px; /* Adjust based on content */
+    padding: 10px 20px;
+  }
+  
+  .faq-hide {
+    max-height: 0;
+    padding: 0 20px;
+  }
+  
