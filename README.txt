@@ -7,6 +7,7 @@ back-end:
 npm install mongodb
 npm install path
 npm install multer
+npm install node mailer
 
 
 

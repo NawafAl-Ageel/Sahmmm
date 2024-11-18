@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 // Define the Opportunity schema
 const opportunitySchema = new mongoose.Schema({
+  
   title: {
     type: String,
     required: true,
@@ -53,12 +54,27 @@ const opportunitySchema = new mongoose.Schema({
     ref: 'Organization', // Reference to the Organization schema
     required: true,
   },
+  
   files: [
     {
       fileName: { type: String, required: true }, // Original file name
       filePath: { type: String, required: true }, // Path to the file on the server
     },
+    
   ],
+
+  avgRating: {
+    type: Number,
+    default: 0, // Default rating is 0
+  },
+  totalRatings: {
+    type: Number,
+    default: 0, // Total number of ratings
+  },
+  ratingSum: {
+    type: Number,
+    default: 0, // Total sum of all ratings
+  }, 
 });
 
 // Create and export the Opportunity model

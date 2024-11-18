@@ -20,7 +20,7 @@ const Reports = () => {
         setOpportunities(response.data);
       } catch (error) {
         console.error("Error fetching opportunities:", error);
-        setError("Failed to fetch opportunities.");
+        setError("فشل في تحميل الفرص.");
       }
     };
 
@@ -36,11 +36,11 @@ const Reports = () => {
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!selectedOpportunity) {
-      setError("Please select an opportunity.");
+      setError("يرجى اختيار الفرصة.");
       return;
     }
     if (!file) {
-      setError("Please choose a file to upload.");
+      setError("يرجى اختيار ملف للتحميل.");
       return;
     }
 
@@ -54,31 +54,31 @@ const Reports = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      setSuccess("File uploaded successfully!");
+      setSuccess("تم تحميل الملف بنجاح!");
       setFile(null);
       setSelectedOpportunity("");
     } catch (error) {
       console.error("Error uploading file:", error);
-      setError("Failed to upload file.");
+      setError("فشل في تحميل الملف.");
     }
   };
 
   return (
     <div className="reports-container">
-      <h2 className="reports-title">Upload Opportunity Files</h2>
+      <h2 className="reports-title">تحميل ملفات الفرص</h2>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
 
       <form onSubmit={handleUpload}>
         <div className="form-group">
-          <label htmlFor="opportunity" className="form-label">Select Opportunity</label>
+          <label htmlFor="opportunity" className="form-label">اختر الفرصة</label>
           <select
             id="opportunity"
             value={selectedOpportunity}
             onChange={(e) => setSelectedOpportunity(e.target.value)}
             className="form-select"
           >
-            <option value="">-- Select an Opportunity --</option>
+            <option value="">-- اختر الفرصة --</option>
             {opportunities.map((opp) => (
               <option key={opp._id} value={opp._id}>
                 {opp.title}
@@ -88,7 +88,7 @@ const Reports = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="file" className="form-label">Upload File</label>
+          <label htmlFor="file" className="form-label">تحميل الملف</label>
           <input
             type="file"
             id="file"
@@ -97,7 +97,7 @@ const Reports = () => {
           />
         </div>
 
-        <button type="submit" className="form-button">Upload</button>
+        <button type="submit" className="form-button">تحميل</button>
       </form>
     </div>
   );

@@ -108,6 +108,7 @@
   display: flex;
   justify-content: space-between;
   background-color: #f9f9f9;
+  text-align: center;
   border-radius: 8px;
   padding: 6px; /* Reduced padding within rows */
 }

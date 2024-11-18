@@ -18,13 +18,22 @@ const {sendWelcomeEmail,sendAcceptEmail,sendRejectEmail} = require('./mail/mailR
 const JWT_SECRET = process.env.JWT_SECRET; // Use environment variables for production
 const routes = require('./Routes'); // Import Routes.js
 
-app.use(
-  cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174'], // Allow multiple frontend origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these HTTP methods
-    credentials: true, // Allow credentials
-  })
-);
+
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:5174'], // Allow your React app's origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow specific methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow specific headers
+  credentials: true,
+}));
+
+app.use('/api', routes);
+
+
+app.options('*', cors()); // Allow OPTIONS requests from all origins
+
+
+app.use(routes)
+
 
 // this is for emails 
 // Email Configuration
@@ -371,6 +380,24 @@ app.get('/opportunities', async (req, res) => {
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 });
+
+app.get('/volunteer/participation-history', verifyToken, async (req, res) => {
+  try {
+    const participationHistory = await ParticipationRequest.find({ volunteer: req.userId })
+      .populate('opportunity') // Populate opportunity details
+      .select('opportunity status date');
+
+    if (!participationHistory.length) {
+      return res.status(404).json({ message: 'No participation history found' });
+    }
+
+    res.status(200).json(participationHistory);
+  } catch (error) {
+    console.error('Error fetching participation history:', error);
+    res.status(500).json({ message: 'Error fetching participation history' });
+  }
+});
+
 
 app.get("/api/opportunities", async (req, res) => {
   try {

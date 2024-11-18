@@ -2,6 +2,31 @@ const express = require('express');
 const multer = require('multer');
 const Opportunity = require('./models/Opportunity'); // Correct path to the Opportunity model
 const router = express.Router(); // Use express.Router()
+const jwt = require('jsonwebtoken');
+
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token provided. Unauthorized.' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = decoded.id;
+    next();
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    return res.status(403).json({ message: 'Invalid token. Access denied.' });
+  }
+};
+
+// Example protected route
+router.post('/opportunities/rate/:opportunityId', verifyToken, async (req, res) => {
+  // Rating logic here...
+});
+
+
 
 // Multer storage configuration (reuse your existing code)
 const storage = multer.diskStorage({
@@ -76,6 +101,37 @@ router.post('/opportunities/upload', upload.single('file'), async (req, res) => 
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 });
+
+router.post('/opportunities/rate/:opportunityId', verifyToken, async (req, res) => {
+  console.log('Request received for rating');
+  console.log('Opportunity ID:', req.params.opportunityId);
+  console.log('Rating:', req.body.rating);
+  
+  const { opportunityId } = req.params;
+  const { rating } = req.body;
+
+  if (!rating || rating < 1 || rating > 5) {
+    return res.status(400).json({ message: 'Invalid rating value.' });
+  }
+
+  try {
+    const opportunity = await Opportunity.findById(opportunityId);
+    if (!opportunity) {
+      return res.status(404).json({ message: 'Opportunity not found.' });
+    }
+
+    const totalRatings = (opportunity.avgRating * opportunity.numRatings) + rating;
+    opportunity.numRatings += 1;
+    opportunity.avgRating = totalRatings / opportunity.numRatings;
+
+    await opportunity.save();
+    res.status(200).json({ avgRating: opportunity.avgRating });
+  } catch (error) {
+    console.error('Error updating rating:', error); // Debug log for errors
+    res.status(500).json({ message: 'Server error.' });
+  }
+});
+
 
 
 

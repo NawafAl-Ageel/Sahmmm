@@ -18,9 +18,10 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
             },
           }
         );
-        setRequestStatus(response.data.status);
+        setRequestStatus(response.data.status || 'idle'); // Ensure status is valid
       } catch (error) {
         console.error('Error fetching request status:', error);
+        setRequestStatus('idle'); // Default to 'idle' on error
       }
     };
 
@@ -57,23 +58,17 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
         <button className="close-button" onClick={onClose}>X</button>
         <h1>{opportunity.title}</h1>
 
-        {/* Image Section */}
         <img 
           src={`http://localhost:5000/uploads/${opportunity.image}`} 
           alt={opportunity.title} 
           className="opportunity-imagee"
         />
 
-        {/* Custom Table and Description Layout */}
         <div className="custom-table-description-container">
           <div className="custom-table">
             <div className="table-section">
               <h3 className="section-title">التاريخ</h3>
-              <div className="table-row">
-                <div className="table-cell">
-                  <p>تاريخ النهاية</p>
-                  <p className="cell-value">{new Date(opportunity.enddate).toLocaleDateString()}</p>
-                </div>
+              <div className="table-row">        
                 <div className="table-cell">
                   <p>تاريخ البداية</p>
                   <p className="cell-value">{new Date(opportunity.date).toLocaleDateString()}</p>
@@ -81,19 +76,7 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
               </div>
             </div>
 
-            <div className="table-section">
-              <h3 className="section-title">الوقت</h3>
-              <div className="table-row">
-                <div className="table-cell">
-                  <p>إلى الساعة</p>
-                  <p className="cell-value">{opportunity.endTime}</p>
-                </div>
-                <div className="table-cell">
-                  <p>من الساعة</p>
-                  <p className="cell-value">{opportunity.startTime}</p>
-                </div>
-              </div>
-            </div>
+          
 
             {requestStatus === 'idle' ? (
               <button 
@@ -103,10 +86,18 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
                 طلب المشاركة
               </button>
             ) : (
-              <button className="participation-button pending" disabled>
-                {requestStatus === 'pending' ? 'معلّق' : requestStatus === 'accepted' ? 'مقبول' : 'مرفوض'}
+              <button className={`participation-button ${requestStatus}`} disabled>
+                {requestStatus === 'pending' 
+                  ? 'معلّق' 
+                  : requestStatus === 'accepted' 
+                  ? 'مقبول' 
+                  : 'مرفوض'}
               </button>
             )}
+
+<div className="average-rating">
+  <p>التقييم الحالي: {opportunity.avgRating?.toFixed(1) || 'غير متوفر'}</p>
+</div>
 
             {showConfirmModal && (
               <div className="confirm-modal">
@@ -134,20 +125,15 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
             </div>
           </div>
 
-          {/* Description and Goals Section */}
           <div id="description-goals-container">
             <div className="description-section">
               <p className="description-title"><strong>: الوصف</strong></p>
               <p id="description">{opportunity.description}</p>
-              <hr className="section-divider" /> {/* Horizontal line to separate الوصف and الأهداف */}
-            </div>
-            <div className="goals-section">
-              <p className="description-title"><strong>: الأهداف</strong></p>
+              <hr className="section-divider" />
             </div>
           </div>
         </div>
 
-        {/* Download Button Section */}
         {opportunity.files && opportunity.files.length > 0 && (
           <div className="download-section">
             <h3>ملفات ذات صلة</h3>

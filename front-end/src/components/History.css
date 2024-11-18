@@ -140,3 +140,19 @@
 .back-button:hover {
     background-color: #45a049;
 }
+
+.star-rating {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .star {
+    font-size: 18px;
+    cursor: pointer;
+    color: gray;
+    transition: color 0.2s;
+  }
+  
+  .star.selected {
+    color: gold;
+  }
