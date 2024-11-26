@@ -4,6 +4,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Volunteer = require('./models/Volunteer');
+const Rating = require('./models/Rating');
 const Organization = require('./models/Organization');
 const mongoose = require('./config/database');
 const cors = require('cors');
@@ -707,15 +708,132 @@ app.get('/opportunity/:id', async (req, res) => {
 
 app.get('/opportunities', async (req, res) => {
   try {
-    const opportunities = await Opportunity.find();
-    console.log(`Found ${opportunities.length} opportunities`);
-    res.json(opportunities);
+    const opportunities = await Opportunity.find().select('title description image date avgRating');
+    res.status(200).json(opportunities);
   } catch (error) {
     console.error('Error fetching opportunities:', error);
-    res.status(500).json({ message: 'Error fetching opportunities', error: error.message });
+    res.status(500).json({ message: 'حدث خطأ أثناء جلب الفرص' });
   }
 });
+
+app.get('/opportunities', async (req, res) => {
+  try {
+    const opportunities = await Opportunity.aggregate([
+      {
+        $lookup: {
+          from: 'ratings',
+          localField: '_id',
+          foreignField: 'opportunity',
+          as: 'ratings',
+        },
+      },
+      {
+        $addFields: {
+          averageRating: { $avg: '$ratings.ratingValue' },
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          description: 1,
+          category: 1,
+          date: 1,
+          image: 1,
+          averageRating: 1, // Include average rating in response
+        },
+      },
+    ]);
+
+    res.json(opportunities);
+  } catch (error) {
+    console.error('Error fetching opportunities with ratings:', error);
+    res.status(500).json({ message: 'Error fetching opportunities' });
+  }
+});
+
+
+
+// تعريف مسار GET لحساب المتوسط
+app.get('/ratings/average/:opportunityId', async (req, res) => {
+  const { opportunityId } = req.params;
+
+  try {
+    const ratings = await Rating.aggregate([
+      { $match: { opportunity: mongoose.Types.ObjectId(opportunityId) } },
+      {
+        $group: {
+          _id: '$opportunity',
+          averageRating: { $avg: '$ratingValue' },
+        },
+      },
+    ]);
+
+    const averageRating = ratings.length > 0 ? ratings[0].averageRating : null;
+    res.status(200).json({ averageRating });
+  } catch (error) {
+    console.error('Error calculating average rating:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+app.get('/ratings', async (req, res) => {
+  try {
+    const volunteerId = req.user.id; // Assuming the user ID is extracted from the token
+    const ratings = await Rating.find({ volunteer: volunteerId });
+    res.json(ratings);
+  } catch (error) {
+    console.error('Error fetching ratings:', error);
+    res.status(500).json({ message: 'حدث خطأ أثناء جلب التقييمات' });
+  }
+});
+
+app.post('/ratings', async (req, res) => {
+  const { ratingValue, opportunityId, volunteerId } = req.body;
+
+  try {
+    // التحقق من وجود تقييم مسبق لنفس المتطوع والفرصة
+    const existingRating = await Rating.findOne({
+      opportunity: opportunityId,
+      volunteer: volunteerId,
+    });
+
+    // if (existingRating) {
+    //   return res.status(400).json({ message: 'لقد قمت بتقييم هذه الفرصة مسبقًا' });
+    // }
+
+    // إنشاء تقييم جديد
+    const newRating = new Rating({
+      ratingValue,
+      opportunity: opportunityId,
+      volunteer: volunteerId,
+    });
+    await newRating.save();
+
+    // تحديث مجموع التقييمات وعددها في جدول الفرص
+    const opportunity = await Opportunity.findById(opportunityId);
+
+    if (!opportunity) {
+      return res.status(404).json({ message: 'الفرصة غير موجودة' });
+    }
+
+    opportunity.ratingSum += ratingValue; // تحديث مجموع التقييمات
+    opportunity.totalRatings += 1; // زيادة عدد التقييمات
+    opportunity.avgRating = (opportunity.ratingSum / opportunity.totalRatings).toFixed(1); // حساب المتوسط
+
+    await opportunity.save(); // حفظ التحديثات
+
+    res.status(200).json({
+      message: 'تم إضافة التقييم وتحديث المتوسط بنجاح',
+      avgRating: opportunity.avgRating,
+    });
+  } catch (error) {
+    console.error('Error adding rating:', error);
+    res.status(500).json({ message: 'حدث خطأ أثناء إضافة التقييم' });
+  }
+});
+
 //Start Server
 app.listen(PORT, () => { 
   console.log(`Server running on port ${PORT}`);
 });
+

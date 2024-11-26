@@ -71,7 +71,7 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
               <div className="table-row">        
                 <div className="table-cell">
                   <p>تاريخ البداية</p>
-                  <p className="cell-value">{new Date(opportunity.date).toLocaleDateString()}</p>
+                  <p className="cell-value">{new Date(opportunity.date).toLocaleDateString("en-CA")}</p>
                 </div>
               </div>
             </div>
@@ -96,7 +96,7 @@ const OpportunityDetails = ({ opportunity, onClose }) => {
             )}
 
 <div className="average-rating">
-  <p>التقييم الحالي: {opportunity.avgRating?.toFixed(1) || 'غير متوفر'}</p>
+  <p>⭐التقييم الحالي: {opportunity.avgRating?.toFixed(1) +"/5"|| 'غير متوفر'}</p>
 </div>
 
             {showConfirmModal && (
