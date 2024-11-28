@@ -10,7 +10,10 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
   const [volunteer, setVolunteer] = useState({ email: '', password: '' });
   const [organization, setOrganization] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Add loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetMessage, setResetMessage] = useState('');
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleVolunteerChange = (e) => {
@@ -23,9 +26,31 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
     setOrganization((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleForgetPassword = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await axios.post('http://localhost:5000/request-reset', {
+        email: resetEmail,
+        role: role
+      });
+      setResetMessage('تم إرسال رمز التحقق إلى بريدك الإلكتروني');
+      navigate('/reset-password', { 
+        state: { 
+          email: resetEmail, 
+          role: role 
+        }
+      });
+    } catch (error) {
+      setResetMessage(error.response?.data?.message || 'حدث خطأ. الرجاء التحقق من البريد الإلكتروني');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleVolunteerLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading animation
+    setIsLoading(true);
     try {
       const response = await axios.post('http://localhost:5000/signin-volunteer', {
         ...volunteer,
@@ -36,19 +61,19 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
       setUser(response.data.user);
       setError('');
       setTimeout(() => {
-        setIsLoading(false); // End loading animation
         navigate('/volunteerhome');
-      }, 1000); // Wait 1 second before navigating
+      }, 1000);
     } catch (error) {
-      setIsLoading(false); // Stop loading animation
       setError('خطأ في تسجيل الدخول للمساهم: الرجاء التحقق من البريد الإلكتروني وكلمة المرور');
       console.error('Error logging in volunteer:', error.response?.data);
+    } finally {
+      setIsLoading(false);
     }
   };
-
+  
   const handleOrganizationLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading animation
+    setIsLoading(true);
     try {
       const response = await axios.post('http://localhost:5000/signin-organization', {
         ...organization,
@@ -59,13 +84,13 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
       setUser(response.data.user);
       setError('');
       setTimeout(() => {
-        setIsLoading(false); // End loading animation
         navigate('/organizationhome');
-      }, 3000); // Wait 1 second before navigating
+      }, 1000);
     } catch (error) {
-      setIsLoading(false); // Stop loading animation
       setError('خطأ في تسجيل الدخول للمنظمة: الرجاء التحقق من البريد الإلكتروني وكلمة المرور');
       console.error('Error logging in organization:', error.response?.data);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,7 +114,7 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
                 />
               </label>
 
-              <label className="radio-inline" htmlFor="volunteer">مساهم
+              <label className="radio-inline">مساهم
                 <input
                   className="radio-group"
                   type="radio"
@@ -103,62 +128,95 @@ const SignIn = ({ setVolunteerToken, setOrganizationToken, setUser }) => {
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
-            {role === 'volunteer' ? (
-              <form onSubmit={handleVolunteerLogin}>
-                <label className="log-in">البريد الالكتروني:</label>
-                <input
-                  className="inputDispalyBlock"
-                  type="email"
-                  name="email"
-                  placeholder="البريد الالكتروني للمساهم"
-                  value={volunteer.email}
-                  onChange={handleVolunteerChange}
-                  required
-                />
-                <label className="log-in">كلمة السر :</label>
-                <input
-                  className="inputDispalyBlock"
-                  type="password"
-                  name="password"
-                  placeholder="كلمة السر"
-                  value={volunteer.password}
-                  onChange={handleVolunteerChange}
-                  required
-                />
-                <button type="submit" className="login-button">
-                  {isLoading ? <div className="loader"></div> : 'تسجيل الدخول'}
+            {!showForgotPassword ? (
+              <>
+                {role === 'volunteer' ? (
+                  <form onSubmit={handleVolunteerLogin}>
+                    <label className="log-in">البريد الالكتروني:</label>
+                    <input
+                      className="inputDispalyBlock"
+                      type="email"
+                      name="email"
+                      placeholder="البريد الالكتروني للمساهم"
+                      value={volunteer.email}
+                      onChange={handleVolunteerChange}
+                      required
+                    />
+                    <label className="log-in">كلمة السر:</label>
+                    <input
+                      className="inputDispalyBlock"
+                      type="password"
+                      name="password"
+                      placeholder="كلمة السر"
+                      value={volunteer.password}
+                      onChange={handleVolunteerChange}
+                      required
+                    />
+                    <button type="submit" className="login-button">
+                      {isLoading ? <div className="loader"></div> : 'تسجيل الدخول'}
+                    </button>
+                  </form>
+                ) : (
+                  <form onSubmit={handleOrganizationLogin}>
+                    <label className="log-in">البريد الالكتروني:</label>
+                    <input
+                      className="inputDispalyBlock"
+                      type="email"
+                      name="email"
+                      placeholder="البريد الالكتروني للمنظمة"
+                      value={organization.email}
+                      onChange={handleOrganizationChange}
+                      required
+                    />
+                    <label className="log-in">كلمة السر:</label>
+                    <input
+                      className="inputDispalyBlock"
+                      type="password"
+                      name="password"
+                      placeholder="كلمة السر"
+                      value={organization.password}
+                      onChange={handleOrganizationChange}
+                      required
+                    />
+                    <button type="submit" className="login-button">
+                      {isLoading ? <div className="loader"></div> : 'تسجيل الدخول'}
+                    </button>
+                  </form>
+                )}
+                <button 
+                  onClick={() => setShowForgotPassword(true)}
+                  className="forgot-password-link"
+                >
+                  نسيت كلمة المرور؟
                 </button>
-              </form>
+              </>
             ) : (
-              <form onSubmit={handleOrganizationLogin}>
+              <form onSubmit={handleForgetPassword}>
                 <label className="log-in">البريد الالكتروني:</label>
                 <input
                   className="inputDispalyBlock"
                   type="email"
-                  name="email"
-                  placeholder="البريد الالكتروني للمنظمة"
-                  value={organization.email}
-                  onChange={handleOrganizationChange}
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  placeholder="أدخل بريدك الإلكتروني"
                   required
                 />
-                <label className="log-in">كلمة السر :</label>
-                <input
-                  className="inputDispalyBlock"
-                  type="password"
-                  name="password"
-                  placeholder="كلمة السر"
-                  value={organization.password}
-                  onChange={handleOrganizationChange}
-                  required
-                />
+                {resetMessage && <p className={resetMessage.includes('تم') ? 'success-message' : 'error-message'}>{resetMessage}</p>}
                 <button type="submit" className="login-button">
-                  {isLoading ? <div className="loader"></div> : 'تسجيل الدخول'}
+                  {isLoading ? <div className="loader"></div> : 'إرسال رمز التحقق'}
+                </button>
+                <button 
+                  onClick={() => {
+                    setShowForgotPassword(false);
+                    setResetMessage('');
+                    setResetEmail('');
+                  }}
+                  className="back-to-login"
+                >
+                  العودة لتسجيل الدخول
                 </button>
               </form>
             )}
-
-            <br />
-            <Link className='AccountSwitch' to="/singup">ليس لديك حساب ؟</Link>
           </div>
         </div>
       </div>
