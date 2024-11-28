@@ -14,8 +14,9 @@ const path = require('path');
 const Opportunity = require('./models/Opportunity');
 const app = express();
 const PORT = process.env.PORT;
+const ResetPassword = require('./models/resetPassword');
 const nodemailer = require('nodemailer');
-const {sendWelcomeEmail,sendAcceptEmail,sendRejectEmail} = require('./mail/mailRoute');
+const {sendWelcomeEmail,sendAcceptEmail,sendRejectEmail,sendResetPasswordEmail} = require('./mail/mailRoute');
 const JWT_SECRET = process.env.JWT_SECRET; // Use environment variables for production
 const routes = require('./Routes'); // Import Routes.js
 
@@ -796,8 +797,6 @@ app.post('/ratings', async (req, res) => {
 });
 
 
-
-
 // تعريف مسار GET لحساب المتوسط
 app.get('/ratings/average/:opportunityId', async (req, res) => {
   const { opportunityId } = req.params;
@@ -834,6 +833,135 @@ app.get('/ratings', async (req, res) => {
 
 
 
+app.post('/request-reset', async (req, res) => {
+const { email, role } = req.body;
+
+try {
+  const Model = role === 'volunteer' ? Volunteer : Organization;
+  const user = await Model.findOne({ email });
+  
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  // Generate OTP
+  const otp = generateOTP();
+
+  // Create or update reset password record
+  await ResetPassword.findOneAndUpdate(
+    { userId: user._id },
+    {
+      userId: user._id,
+      otp: otp,
+      expiresAt: Date.now() + 600000, // 10 minutes
+      role: role
+    },
+    { upsert: true, new: true }
+  );
+
+  // Send OTP email
+  const emailResult = await sendResetPasswordEmail(
+    transporter,
+    user.name,
+    email,
+    otp
+  );
+
+  if (!emailResult.success) {
+    throw new Error('Failed to send reset email');
+  }
+
+  res.status(200).json({ message: 'Reset OTP sent to email' });
+
+} catch (error) {
+  console.error('Password reset request error:', error);
+  res.status(500).json({ message: 'Error processing reset request' });
+}
+});
+
+app.post('/reset-password', async (req, res) => {
+  try {
+    const { email, otp, newPassword, role } = req.body;
+
+    if (!email || !otp || !newPassword || !role) {
+      return res.status(400).json({ message: 'جميع الحقول مطلوبة' });
+    }
+
+    const Model = role === 'volunteer' ? Volunteer : Organization;
+    const user = await Model.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'المستخدم غير موجود' });
+    }
+
+    // Double-check the OTP one last time
+    const resetRecord = await ResetPassword.findOne({
+      userId: user._id,
+      otp: otp,
+      expiresAt: { $gt: Date.now() },
+      role: role
+    });
+
+    if (!resetRecord) {
+      return res.status(400).json({ message: 'رمز التحقق غير صحيح أو منتهي الصلاحية' });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user's password
+    await Model.findByIdAndUpdate(user._id, { password: hashedPassword });
+
+    // Delete the reset record
+    await ResetPassword.deleteOne({ _id: resetRecord._id });
+
+    res.status(200).json({ message: 'تم تغيير كلمة المرور بنجاح' });
+
+  } catch (error) {
+    console.error('Password reset error:', error);
+    res.status(500).json({ message: 'حدث خطأ في تغيير كلمة المرور' });
+  }
+});
+app.post('/verify-otp', async (req, res) => {
+  const { email, otp, role } = req.body;
+
+  try {
+    // Validate required fields
+    if (!email || !otp || !role) {
+      return res.status(400).json({ message: 'جميع الحقول مطلوبة' });
+    }
+
+    // Determine the correct model based on role
+    const Model = role === 'volunteer' ? Volunteer : Organization;
+    const user = await Model.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'المستخدم غير موجود' });
+    }
+
+    // Find the reset password record
+    const resetRecord = await ResetPassword.findOne({
+      userId: user._id,
+      otp: otp,
+      expiresAt: { $gt: Date.now() },
+      role: role
+    });
+
+    if (!resetRecord) {
+      return res.status(400).json({ message: 'رمز التحقق غير صحيح أو منتهي الصلاحية' });
+    }
+
+    // If OTP is valid, return success
+    res.status(200).json({ 
+      message: 'تم التحقق من الرمز بنجاح',
+      userId: user._id 
+    });
+
+  } catch (error) {
+    console.error('Verify OTP error:', error);
+    res.status(500).json({ message: 'حدث خطأ في التحقق من الرمز' });
+  }
+});
 //Start Server
 app.listen(PORT, () => { 
   console.log(`Server running on port ${PORT}`);

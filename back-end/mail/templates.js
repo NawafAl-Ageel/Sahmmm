@@ -308,9 +308,121 @@ const rejectEmail = (name, opportunityName) => `
     </div>
 </body>
 </html>`;
-
+const resetPasswordEmail = (name, otp) => `
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            box-sizing: border-box;
+            direction: rtl;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: right;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #eee;
+            color: #007bff;
+        }
+        
+        .content {
+            padding: 20px 0;
+        }
+        
+        .otp-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .otp-code {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: #007bff;
+            padding: 10px 20px;
+            background: #ffffff;
+            border: 2px dashed #007bff;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .warning-info {
+            background: #fff3cd;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-right: 4px solid #ffc107;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #666;
+        }
+        
+        p, h1, h2, h3, li {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            <h1>رمز التحقق لإعادة تعيين كلمة المرور</h1>
+        </div>
+        
+        <div class="content">
+            <p>مرحباً ${name}،</p>
+            
+            <p>تلقينا طلباً لإعادة تعيين كلمة المرور الخاصة بحسابك في منصة ساهم. استخدم رمز التحقق التالي لإكمال العملية:</p>
+            
+            <div class="otp-container">
+                <div class="otp-code">${otp}</div>
+            </div>
+            
+            <div class="warning-info">
+                <h3>ملاحظات مهمة:</h3>
+                <p>• سينتهي رمز التحقق خلال ساعة واحدة من الآن</p>
+                <p>• إذا لم تطلب إعادة تعيين كلمة المرور، يرجى تجاهل هذا البريد الإلكتروني</p>
+                <p>• لا تشارك رمز التحقق مع أي شخص لحماية حسابك</p>
+            </div>
+            
+            <p>إذا واجهت أي مشكلة، لا تتردد في التواصل مع فريق الدعم.</p>
+        </div>
+        
+        <div class="footer">
+            <p>مع أطيب التحيات،<br>فريق منصة ساهم</p>
+        </div>
+    </div>
+</body>
+</html>`;
 module.exports = { 
     welcomeEmail,
     acceptEmail,
-    rejectEmail
+    rejectEmail,
+    resetPasswordEmail
 };

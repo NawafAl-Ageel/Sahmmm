@@ -10,6 +10,7 @@ import PostOpp from './components/PostOpp'; // Import the PostOpp component
 import OpportunityDetails from './components/OpportunityDetails'; // For viewing details of an opportunity
 import OrganizationRequests from './components/OrganizationRequests'; // Import the organization requests component
 import Home from "./components/Home";
+import ResetPassword from './components/ResetPassword';
 import History from './components/History';
 import "./components/style/ProjectStyle.css";
 import FAQ from './components/FAQ';
@@ -68,6 +69,7 @@ const App = () => {
                 setUser={setUser} 
               />} 
             />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="*" element={<Navigate to="/home" />} />
           </>
         ) : (
