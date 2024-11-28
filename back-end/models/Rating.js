@@ -12,15 +12,9 @@ const RatingSchema = new mongoose.Schema({
     ref: 'Opportunity', // الربط مع جدول الفرص
     required: true,
   },
-  volunteer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Volunteer', // الربط مع جدول المتطوع
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  volunteer: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Volunteer', required: false },
 });
 
 module.exports = mongoose.model('Rating', RatingSchema);

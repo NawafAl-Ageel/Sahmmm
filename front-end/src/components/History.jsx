@@ -111,11 +111,9 @@ function History({ user, handleLogout }) {
               <div className="history-mini-cards">
                 {history.map((event) => (
                   <div key={event._id} className="mini-card">
-                    <img src={event.image || 'images/default-opportunity.jpg'} alt={event.title} className="mini-card-image" />
                     <div className="mini-card-content">
                       <h4>{event.title}</h4>
                       <p>{(event.date).split("T")[0]}</p>
-                      <p>{event.description}</p>
                       <div className="rating">
                         <p>
                           متوسط التقييم: {event.avgRating ? event.avgRating.toFixed(1) : 'غير متوفر'} / 5 ⭐

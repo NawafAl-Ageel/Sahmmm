@@ -751,6 +751,51 @@ app.get('/opportunities', async (req, res) => {
   }
 });
 
+app.post('/ratings', async (req, res) => {
+  const { ratingValue, opportunityId } = req.body;
+
+  // Validate input
+  if (!ratingValue || !opportunityId) {
+    return res.status(400).json({ message: 'ratingValue and opportunityId are required.' });
+  }
+
+  try {
+    // Find the opportunity and update its ratings in one step
+    const opportunity = await Opportunity.findById(opportunityId);
+
+    if (!opportunity) {
+      return res.status(404).json({ message: 'Opportunity not found.' });
+    }
+
+    // Calculate the new rating values
+    const newRatingSum = opportunity.ratingSum + ratingValue;
+    const newTotalRatings = opportunity.totalRatings + 1;
+    const newAvgRating = (newRatingSum / newTotalRatings).toFixed(1);
+
+    // Update the rating-related fields only
+    await Opportunity.findByIdAndUpdate(
+      opportunityId,
+      {
+        $set: {
+          ratingSum: newRatingSum,
+          totalRatings: newTotalRatings,
+          avgRating: newAvgRating,
+        },
+      },
+      { new: true } // Return the updated document
+    );
+
+    res.status(200).json({
+      message: 'Rating added successfully.',
+      avgRating: newAvgRating,
+    });
+  } catch (error) {
+    console.error('Error adding rating:', error.stack);
+    res.status(500).json({ message: 'An error occurred while adding the rating.' });
+  }
+});
+
+
 
 
 // تعريف مسار GET لحساب المتوسط
@@ -787,50 +832,7 @@ app.get('/ratings', async (req, res) => {
   }
 });
 
-app.post('/ratings', async (req, res) => {
-  const { ratingValue, opportunityId, volunteerId } = req.body;
 
-  try {
-    // التحقق من وجود تقييم مسبق لنفس المتطوع والفرصة
-    const existingRating = await Rating.findOne({
-      opportunity: opportunityId,
-      volunteer: volunteerId,
-    });
-
-    // if (existingRating) {
-    //   return res.status(400).json({ message: 'لقد قمت بتقييم هذه الفرصة مسبقًا' });
-    // }
-
-    // إنشاء تقييم جديد
-    const newRating = new Rating({
-      ratingValue,
-      opportunity: opportunityId,
-      volunteer: volunteerId,
-    });
-    await newRating.save();
-
-    // تحديث مجموع التقييمات وعددها في جدول الفرص
-    const opportunity = await Opportunity.findById(opportunityId);
-
-    if (!opportunity) {
-      return res.status(404).json({ message: 'الفرصة غير موجودة' });
-    }
-
-    opportunity.ratingSum += ratingValue; // تحديث مجموع التقييمات
-    opportunity.totalRatings += 1; // زيادة عدد التقييمات
-    opportunity.avgRating = (opportunity.ratingSum / opportunity.totalRatings).toFixed(1); // حساب المتوسط
-
-    await opportunity.save(); // حفظ التحديثات
-
-    res.status(200).json({
-      message: 'تم إضافة التقييم وتحديث المتوسط بنجاح',
-      avgRating: opportunity.avgRating,
-    });
-  } catch (error) {
-    console.error('Error adding rating:', error);
-    res.status(500).json({ message: 'حدث خطأ أثناء إضافة التقييم' });
-  }
-});
 
 //Start Server
 app.listen(PORT, () => { 
